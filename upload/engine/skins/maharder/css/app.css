@@ -1,0 +1,85 @@
+.page-title small:before {
+    content: '';
+    margin-right: 18px;
+}
+
+.content {
+    font-size: 1vw;
+}
+
+.content small {
+    /*font-size: 0.92vw !important;*/
+    color: #7b7b7b;
+    font-style: italic;
+}
+
+.ui.toggle.checkbox label {
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-top: 0;
+}
+
+.ui.buttons .or {
+    width: 0em;
+}
+
+.ui.buttons .or:before {
+    content: 'или';
+    margin-left: -1em;
+    width: 2em;
+    height: 2em;
+}
+
+.ui.grid {
+    margin: 0.5rem;
+}
+
+.grid div label {
+    font-weight: bold;
+    font-size: 1.1vw !important;
+}
+
+.ui.grid>.row {
+    border-bottom: 1px solid #eaeaea;
+}
+
+.ui.grid>.row:hover {
+    background: #eaeaea;
+}
+
+.ui.grid>.row:last-child {
+    border-bottom: 0;
+}
+
+.segment.check {
+    width: 60px;
+}
+
+.ui.grid>[class*="two column"].row>.column:nth-child(2) {
+    border-left: 1px solid #eaeaea;
+}
+
+.ui.feed>.event>.content {
+    padding: 0;
+}
+
+.ui.segment .tokenfield .token>.close {
+    margin-top: 5px;
+}
+
+.ui.segment .tokenfield .token>.close::after {
+    margin-top: -11px;
+    margin-left: 1px;
+}
+
+.ui .tokenfield.form-control {
+    max-width: 100% !important;
+}
+
+.label {
+    font-size: 10px !important;
+}
+
+.tag.message {
+    margin-bottom: 30px;
+}
