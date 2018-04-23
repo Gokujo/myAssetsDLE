@@ -50,8 +50,10 @@ function segment($name, $inhalt, $first = FALSE) {
 	echo $out;
 }
 
-function addInput($name, $value, $label) {
-	$out = "<div class=\"field\"><input type=\"text\" id=\"{$name}\" name=\"save[{$name}]\" placeholder=\"{$label}\" value=\"{$value}\"></div>";
+function addInput($name, $value, $label, $chosen = false) {
+	if($chosen) $placebo = "class=\"chosen\"";
+	else $placebo = "";
+	$out = "<div class=\"field\"><input type=\"text\" id=\"{$name}\" name=\"save[{$name}]\" placeholder=\"{$label}\" value=\"{$value}\" {$placebo}></div>";
 	return $out;
 }
 
