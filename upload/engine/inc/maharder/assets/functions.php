@@ -87,6 +87,27 @@ function addSelect($name, $value, $label, $selected) {
 	return $output;
 }
 
+function addChosenSelect($name, $value, $selected) {
+    global $db;
+    $tempList = array();
+    $sels = explode(',', $selected);
+    if($value == 'cats') {
+        $cats = $db->query("SELECT id, name FROM " . PREFIX . "_category");
+        while ($entry = $db->get_array($cats)){
+            if (in_array($entry['id'], $sels)) $active = " selected";
+            else $active = "";
+            $tempList[] = "<option value=\"" . $entry['id'] . "\"".$active.">" . $entry['name'] . "</option>";
+        }
+        unset($cats);
+    }
+    $output = "<div class=\"inline field\"><select id=\"{$name}\" name=\"save[$name}]\" multiple=\"\" class=\"label ui selection fluid dropdown\">";
+    $output .= implode('', $tempList);
+    $output .= "</select></div>";
+
+    unset($tempList);
+    return $output;
+}
+
 function segRow($name, $descr, $action, $id = "") {
 	$out = "<div class=\"two column row\"><div class=\"column\"><label for=\"{$id}\">{$name}</label><br><small>{$descr}</small></div><div class=\"column\">{$action}</div></div>";
 	return $out;
@@ -144,6 +165,25 @@ function messageOut($header, $message, $buttons){
 	</div>
 HTML;
 	echo $out;
+}
+
+function getXfields($id, $type = "post") {
+	global $db;
+
+	if($type == "post")
+		$post = $db->super_query("SELECT xfields FROM " . PREFIX . "_post WHERE id = '{$id}'");
+	 elseif($type == "user")
+		$post = $db->super_query("SELECT xfields FROM " . PREFIX . "_users WHERE user_id = '{$id}'");
+	
+	if($post) {
+		$xfout = array();
+		$fields = explode('||', $post['xfields']);
+		foreach ($fields as $key => $value) {
+			$xfout[$key] = $value;
+		}
+	} else $xfout = false;
+
+	return $xfout;
 }
 
 class pagination {
@@ -211,8 +251,7 @@ class pagination {
 		return '<div class="ui right floated pagination menu" id="'.$this->id.'">' . $htmlOut . '</div>';
 	}
 	
-    protected function searchPage( array $pagessList, $needPage )
-    {
+    protected function searchPage( array $pagessList, $needPage ) {
         foreach( $pagessList AS $chunk => $pagess  ){
             if( in_array($needPage, $pagess) ){
                 return $chunk;
