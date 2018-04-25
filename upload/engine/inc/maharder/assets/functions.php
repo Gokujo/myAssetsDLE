@@ -90,19 +90,32 @@ function addSelect($name, $value, $label, $selected) {
 function addChosenSelect($name, $value, $selected) {
     global $db;
     $tempList = array();
+    $tempList2 = array();
+    $tempList3 = array();
     $sels = explode(',', $selected);
     if($value == 'cats') {
         $cats = $db->query("SELECT id, name FROM " . PREFIX . "_category");
         while ($entry = $db->get_array($cats)){
-            if (in_array($entry['id'], $sels)) $active = " selected";
-            else $active = "";
-            $tempList[] = "<option value=\"" . $entry['id'] . "\"".$active.">" . $entry['name'] . "</option>";
+            if (in_array($entry['id'], $sels)) {
+				$tempList2[] = "<a class=\"ui label transition visible\" data-value=\"" . $entry['id'] . "\" style=\"display: inline-block !important;\">" . $entry['name'] . "<i class=\"delete icon\"></i></a>";
+				$activ2 = " active filtered";
+				$active = " selected";
+			} else {
+				$active = "";
+				$activ2 = "";
+			}
+			$tempList[] = "<option value=\"" . $entry['id'] . "\"".$active.">" . $entry['name'] . "</option>";
+			$tempList3[] = "<div class=\"item".$activ2."\" data-value=\"" . $entry['id'] . "\">" . $entry['name'] . "</div>";
         }
         unset($cats);
     }
-    $output = "<div class=\"inline field\"><select id=\"{$name}\" name=\"save[$name}]\" multiple=\"\" class=\"label ui selection fluid dropdown\">";
+    $output = "<div class=\"inline field\"><div class=\"label ui selection fluid dropdown multiple\" tabindex=\"0\"><select id=\"{$name}\" name=\"{$name}[]\" multiple=\"\" class=\"\">";
     $output .= implode('', $tempList);
-    $output .= "</select></div>";
+	$output .= "</select><i class=\"dropdown icon\"></i>";
+	$output .= implode('', $tempList2);
+	$output .= "<div class=\"text\"></div><div class=\"menu transition hidden\" tabindex=\"-1\">";
+	$output .= implode('', $tempList3);
+	$output .= "</div></div></div>";
 
     unset($tempList);
     return $output;
