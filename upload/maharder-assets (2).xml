@@ -1,5 +1,19 @@
-<?php
-
+<?xml version="1.0" encoding="utf-8"?>
+<dleplugin>
+	<name>MaHarder Assets</name>
+	<description>Универсальная административная панель для модификаций от MaHarder</description>
+	<icon></icon>
+	<version>1.1</version>
+	<dleversion>13</dleversion>
+	<versioncompare>greater</versioncompare>
+	<mysqlinstall><![CDATA[]]></mysqlinstall>
+	<mysqlupgrade><![CDATA[]]></mysqlupgrade>
+	<mysqlenable><![CDATA[]]></mysqlenable>
+	<mysqldisable><![CDATA[]]></mysqldisable>
+	<mysqldelete><![CDATA[]]></mysqldelete>
+	<file name="engine/inc/maharder/assets/functions.php">
+		<operation action="create">
+			<replacecode><![CDATA[<?php
 //	===============================
 //	Глобальные функции
 //	===============================
@@ -9,9 +23,7 @@
 //	===============================
 //	Ничего не менять
 //	===============================
-
 if( !defined( 'DATALIFEENGINE' ) ) die( "Oh! You little bastard!" );
-
 $cssfiles = [
 	'/engine/skins/maharder/css/frame.css',
 	'/engine/skins/maharder/css/app.css',
@@ -20,15 +32,14 @@ $jsfiles = [
 	'/engine/skins/maharder/js/frame.js',
 	'/engine/skins/maharder/js/app.js',
 ];
-
 function impFiles($type, $files) {
+	global $config;
 	foreach ($files as $file) {
 		if($type=='css')  $out[] = "<link rel=\"stylesheet\" href=\"".$file."\">";
 		if($type=='js')  $out[] = "<script src=\"".$file."\"></script>";
 	}
 	echo implode("", $out);
 }
-
 function boxes($list) {
 	$out = '<div class="ui top attached tabular menu" id="box-navi">';
 	$count = 0;
@@ -41,7 +52,6 @@ function boxes($list) {
 	$out .= '</div>';
 	echo $out;
 }
-
 function segment($name, $inhalt, $first = FALSE) {
 	if($first) $active = " active";
 	else $active = "";
@@ -49,31 +59,26 @@ function segment($name, $inhalt, $first = FALSE) {
 	$out = '<div class="ui bottom attached tab segment'.$active.'" data-tab="'.$name.'"><div class="ui four column grid">'.$input.'</div></div>';
 	echo $out;
 }
-
 function addInput($name, $value, $label, $chosen = false) {
 	if($chosen) $placebo = "class=\"chosen\"";
 	else $placebo = "";
 	$out = "<div class=\"field\"><input type=\"text\" id=\"{$name}\" name=\"save[{$name}]\" placeholder=\"{$label}\" value=\"{$value}\" {$placebo}></div>";
 	return $out;
 }
-
 function addCheckbox($name, $selected) {
 	$selected = $selected ? "checked" : "";
 	$out = "<input id=\"{$name}\" class=\"switch\" type=\"checkbox\" name=\"save[{$name}]\" value=\"1\" {$selected}>";
 	
 	return $out;
 }
-
 function saveButton($save = "Сохранить") {
 	$out = "<button class=\"fluid ui positive button\"><i class=\"save icon\"></i>&nbsp;&nbsp;{$save}</button>";
 	echo $out;
 }
-
 function addTextarea($name, $value, $label) {
 	$out = "<div class=\"field\"><textarea id=\"{$name}\" name=\"save[{$name}]\" placeholder=\"{$label}\">{$value}</textarea></div>";
 	return $out;
 }
-
 function addSelect($name, $value, $label, $selected) {
 	$output = "<div class=\"field\"><div class=\"ui selection dropdown\"><input type=\"hidden\" name=\"save[{$name}]\" value=\"{$selected}\"><i class=\"dropdown icon\"></i><div class=\"default text\">{$label}</div><div class=\"menu\">";
 	foreach ( $value as $values => $description ) {
@@ -86,7 +91,6 @@ function addSelect($name, $value, $label, $selected) {
 	$output .= "</div></div></div>";
 	return $output;
 }
-
 function addChosenSelect($name, $value, $selected) {
     global $db;
     $tempList = array();
@@ -116,19 +120,15 @@ function addChosenSelect($name, $value, $selected) {
 	$output .= "<div class=\"text\"></div><div class=\"menu transition hidden\" tabindex=\"-1\">";
 	$output .= implode('', $tempList3);
 	$output .= "</div></div></div>";
-
     unset($tempList);
     return $output;
 }
-
 function segRow($name, $descr, $action, $id = "") {
 	$out = "<div class=\"two column row\"><div class=\"column\"><label for=\"{$id}\">{$name}</label><br><small>{$descr}</small></div><div class=\"column\">{$action}</div></div>";
 	return $out;
 }
-
 function author($type) {
 	global $author, $changes;
-
 	switch ($type) {
 		case 'name':
 			return $author['name']." [<a href=\"{$author['site']}\" target=\"_blank\">сайт</a>]";
@@ -142,7 +142,6 @@ function author($type) {
 			$out[] = "</ul>";
 			return implode("", $out);
 			break;
-
 		case 'changes':
 			$out[] = "<ul>";
 			foreach($changes as $nummer => $new) {
@@ -158,16 +157,13 @@ function author($type) {
 			break;
 	}
 }
-
 function messageOut($header, $message, $buttons){
 	$button[] = "<div class=\"ui buttons\">";
-
 	foreach ($buttons as $link => $value) {
 		$button[] = "<a href=\"{$link}\" class=\"ui button\">{$value}</a>";
 	}
 	$button[] = "</div>";
 	$click = implode("", $button);
-
 	$out = <<<HTML
 	<div class="ui info message">
     	<div class="header">
@@ -179,10 +175,8 @@ function messageOut($header, $message, $buttons){
 HTML;
 	echo $out;
 }
-
 function getXfields($id, $type = "post") {
 	global $db;
-
 	if($type == "post")
 		$post = $db->super_query("SELECT xfields FROM " . PREFIX . "_post WHERE id = '{$id}'");
 	 elseif($type == "user")
@@ -195,10 +189,40 @@ function getXfields($id, $type = "post") {
 			$xfout[$key] = $value;
 		}
 	} else $xfout = false;
-
 	return $xfout;
 }
+function addDocItem ($icon, $header, $subheader, $content) {
+	$out = "<h2 class=\"ui header\"><i class=\"{$icon}\"></i><div class=\"content\">{$header}";
+	if(isset($subheader)) $out .= "<div class=\"sub header\">{$subheader}</div>";
+    $out .= "</div></h2>";
+	$out .= $content;
 
+	return $out;
+}
+function stepByStep ($items) {
+	$out = "<ol>";
+	foreach ($items as $item) {
+		$out .= "<li>{$item}</li>";
+	}
+	$out .= "</ol>";
+
+	return $out;
+}
+function docPage ($ihnalt) {
+	$out = <<<HTML
+<div class="ui container">
+    <div class="ui equal width divided grid">
+        <div class="stretched row">
+			<div class="three wide column sticky">
+
+			</div>
+			<div class="column content">
+			</div>
+		</div>
+	</div>
+</div>
+HTML;
+}
 class pagination {
 	protected $id;
 	protected $startChar;
@@ -212,7 +236,6 @@ class pagination {
 		$this->nextChar  = $nextChar;
 		$this->endChar   = $endChar;
     }   
-
 	public function getLinks($all, $limit, $start, $linkLimit = 10, $varName = 'page') {
 		if ( $limit >= $all || $limit == 0 ) {
 			return NULL;
@@ -245,7 +268,6 @@ class pagination {
 			$htmlOut .= '<a class="item disabled">'.$this->startChar.'</a>'.
 						'<a class="item disabled">'.$this->prevChar.'</a>'; 
 		}
-
 		foreach( $allPages[$needChunk] AS $pageNum => $ofset )  {
 			if( $ofset == $start  ) {
 				$htmlOut .= '<a class="item active">'. $pageNum .'</a>';            
@@ -253,7 +275,6 @@ class pagination {
 			}        
 			$htmlOut .= '<a href="'.$link.'&'.$varName.'='. $pageNum .'" class="item">'. $pageNum . '</a>';
 		}
-
 		if ( ($all - $limit) >  $start) {
 			$htmlOut .= '<a href="' . $link . '&' . $varName . '=' . (ceil(( $start + $limit)/$limit)+1) . '" class="item">' . $this->nextChar . '</a>'.
 						'<a href="' . $link . '&' . $varName . '=' . $pagess . '" class="item">' . $this->endChar . '</a>';            
@@ -273,5 +294,7 @@ class pagination {
         return 0;
     }    
 }
-
-?>
+?>]]></replacecode>
+		</operation>
+	</file>
+</dleplugin>
