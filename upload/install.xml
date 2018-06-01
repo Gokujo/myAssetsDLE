@@ -3,7 +3,7 @@
 	<name>MaHarder Assets</name>
 	<description>Универсальная административная панель для модификаций от MaHarder</description>
 	<icon></icon>
-	<version>1</version>
+	<version>1.1</version>
 	<dleversion>13</dleversion>
 	<versioncompare>greater</versioncompare>
 	<mysqlinstall><![CDATA[]]></mysqlinstall>
@@ -33,6 +33,7 @@ $jsfiles = [
 	'/engine/skins/maharder/js/app.js',
 ];
 function impFiles($type, $files) {
+	global $config;
 	foreach ($files as $file) {
 		if($type=='css')  $out[] = "<link rel=\"stylesheet\" href=\"".$file."\">";
 		if($type=='js')  $out[] = "<script src=\"".$file."\"></script>";
@@ -189,6 +190,101 @@ function getXfields($id, $type = "post") {
 		}
 	} else $xfout = false;
 	return $xfout;
+}
+function addDocItem ($icon, $header, $subheader, $content) {
+	$out = "<h2 class=\"ui header\"><i class=\"{$icon}\"></i><div class=\"content\">{$header}";
+	if(isset($subheader)) $out .= "<div class=\"sub header\">{$subheader}</div>";
+    $out .= "</div></h2>";
+	$out .= $content;
+
+	return $out;
+}
+function stepByStep ($items) {
+	$out = "<ol>";
+	foreach ($items as $item) {
+		$out .= "<li>{$item}</li>";
+	}
+	$out .= "</ol>";
+
+	return $out;
+}
+function docMenu($items) {
+	$i = 0;
+	foreach ($items as $name => $keys) {
+		if($i == 0) $active = " active";
+		else $active = "";
+		$out[] = '<a href="#" class="item'.$active.'" data-tab="'.$name.'"><i class="'.$keys['icon'].'"></i> '.$keys['name'].'</a>';
+		$i++;
+	}
+	$out[] = "<a class=\"item\" data-tab=\"help\"><i class=\"user circle icon\"></i> Поддержка</a>";
+
+	return implode("", $out);
+}
+function docBoxes ($name, $items, $first = FALSE) {
+	if($first) $active = " active";
+	else $active = "";
+	$input = implode("", $items);
+	$out = '<div class="ui segment tab'.$active.'" data-tab="'.$name.'">'.$input.'</div>';
+	return $out;
+}
+function docPage ($columnOne, $columnTwo) {
+	$out = <<<HTML
+<div class="ui container">
+    <div class="ui equal width divided grid">
+        <div class="stretched row">
+			<div class="four wide column sticky">
+				<div class="ui vertical fluid tabular menu docMenu">
+					{$columnOne}
+				</div>
+			</div>
+			<div class="column content docContent">
+				{$columnTwo}
+				<div class="ui segment tab" data-tab="help">
+                    <h2 class="ui header">
+                        <i class="user circle icon"></i>
+                        <div class="content">
+                           Поддержка
+                            <div class="sub header">Обновляемая документация всегда <a href="{$helplink}" target="_blank">здесь  <i class="fas fa-external-link-alt"></i></a></div>
+                        </div>
+                    </h2>
+                    <p>Поддержка скрипта проводится в <strong>свободное</strong> от работы <strong>время</strong> и делается на <strong>бесплатной основе</strong> в кодировке <strong>UTF-8</strong>. Автор не несёт ответственности за ваши модификации и с ними связанные ошибки
+                            при установке.</p>
+                    <p><strong>Вы имеете право</strong>:</p>
+                    <ul>
+                        <li>Запросить о помощи в ветке на <a href="{$helplink}" target="_blank" rel="noopener">форуме</a>, на <a href="{$sitelink}" target="_blank" rel="noopener">сайте</a> или в <a href="https://t.me/MaHarder" target="_blank" rel="noopener">телеграме</a> автора</li>
+                        <li>Адаптировать функционал под себя</li>
+                        <li>Адаптировать дизайн под себя</li>
+                        <li>Предлагать новый функционал через те-же ветки, что описаны выше</li>
+                        <li>Публиковать модуль в публичном доступе</li>
+                    </ul>
+                    <p><strong>Вы не имеете право:</strong></p>
+                    <ul>
+                        <li>Присваивать авторство себе</li>
+                        <li>Требовать невозможного</li>
+                        <li>Публиковать адаптации без согласия автора в сети</li>
+                        <li>Распространять модуль без указания автора</li>
+                        <li>Удалять копирайты</li>
+                    </ul>
+                    <p><strong>Авторство</strong>:</p>
+                    <ul>
+                        <li><strong>Автор</strong>: Maxim Harder</li>
+                        <li><strong>Телеграм</strong>: <a href="https://t.me/MaHarder" target="_blank" rel="noopener">MaHarder</a></li>
+                    </ul>
+                    <p><strong>Финансовая поддержка (доброволная)</strong>:</p>
+                    <ul>
+                    	<li><strong>Webmoney (RU)</strong>:&nbsp;R127552376453</li>
+                        <li><strong>Webmoney (USD)</strong>:&nbsp;Z139685140004</li>
+                        <li><strong>Webmoney (EU)</strong>:&nbsp;E275336355586</li>
+                        <li><strong>PayPal</strong>:&nbsp;<a href="https://paypal.me/MaximH" target="_blank" rel="noopener">paypal.me/MaximH</a></li>
+                    </ul>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+HTML;
+
+echo $out;
 }
 class pagination {
 	protected $id;

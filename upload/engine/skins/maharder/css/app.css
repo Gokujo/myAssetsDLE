@@ -4,7 +4,7 @@
 }
 
 .content {
-    font-size: 1vw;
+    font-size: 12px;
 }
 
 .content small {
@@ -82,4 +82,17 @@
 
 .tag.message {
     margin-bottom: 30px;
+}
+
+.ui.header>.icon {
+    padding-top: 8px !important;
+    font-size: 2em;
+    vertical-align: top !important;
+}
+.ui.menu {
+    font-size: 0.9em;
+}
+
+.wide.column.sticky {
+    padding-right: 0 !important;
 }
