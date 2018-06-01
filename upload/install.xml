@@ -229,10 +229,9 @@ function docBoxes ($name, $items, $first = FALSE) {
 }
 function docPage ($columnOne, $columnTwo) {
 	$out = <<<HTML
-<div class="ui container">
-    <div class="ui equal width divided grid">
-        <div class="stretched row">
-			<div class="four wide column sticky">
+<div class="ui fluid container">
+    <div class="ui equal width stackable divided grid">
+			<div class="three wide column sticky">
 				<div class="ui vertical fluid tabular menu docMenu">
 					{$columnOne}
 				</div>
@@ -276,9 +275,8 @@ function docPage ($columnOne, $columnTwo) {
                         <li><strong>Webmoney (USD)</strong>:&nbsp;Z139685140004</li>
                         <li><strong>Webmoney (EU)</strong>:&nbsp;E275336355586</li>
                         <li><strong>PayPal</strong>:&nbsp;<a href="https://paypal.me/MaximH" target="_blank" rel="noopener">paypal.me/MaximH</a></li>
-                    </ul>
-                </div>
-			</div>
+                </ul>
+            </div>
 		</div>
 	</div>
 </div>

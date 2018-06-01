@@ -5,6 +5,7 @@ $('.no.label.ui.dropdown').dropdown({
     useLabels: false
 });
 $('.sticky').sticky({
-    context: '.docContent'
+    context: '.docContent',
+    pushing: true
 });
 $('.docMenu .item').tab();
