@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <dleplugin>
 	<name>MaHarder Assets</name>
 	<description>Универсальная административная панель для модификаций от MaHarder</description>
@@ -25,12 +25,12 @@
 //	===============================
 if( !defined( 'DATALIFEENGINE' ) ) die( "Oh! You little bastard!" );
 $cssfiles = [
-	'/engine/skins/maharder/css/frame.css',
-	'/engine/skins/maharder/css/app.css',
+	'engine/skins/maharder/css/frame.css',
+	'engine/skins/maharder/css/app.css',
 ];
 $jsfiles = [
-	'/engine/skins/maharder/js/frame.js',
-	'/engine/skins/maharder/js/app.js',
+	'engine/skins/maharder/js/frame.js',
+	'engine/skins/maharder/js/app.js',
 ];
 function impFiles($type, $files) {
 	global $config;
