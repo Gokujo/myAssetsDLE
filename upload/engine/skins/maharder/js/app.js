@@ -4,8 +4,12 @@ $('.dropdown').dropdown();
 $('.no.label.ui.dropdown').dropdown({
     useLabels: false
 });
-$('.sticky').sticky({
-    context: '.docContent',
-    pushing: true
-});
+var stickys = $(document).find('.sticky');
+if(stickys > 0) {
+    $('.sticky').sticky({
+        context: '.docContent',
+        pushing: true
+    });
+}
 $('.docMenu .item').tab();
+$('.chosen').tokenfield();

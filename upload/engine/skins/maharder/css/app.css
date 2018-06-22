@@ -3,8 +3,8 @@
     margin-right: 18px;
 }
 
-.content {
-    font-size: 12px;
+.content *{
+    font-size: 13px !important;
 }
 
 .content small {
@@ -64,7 +64,7 @@
 }
 
 .ui.segment .tokenfield .token>.close {
-    margin-top: 5px;
+    margin-top: -7px;
 }
 
 .ui.segment .tokenfield .token>.close::after {
@@ -94,5 +94,10 @@
 }
 
 .wide.column.sticky {
+    padding-right: 0 !important;
+}
+
+.ui.table {
+    padding-left: 0 !important;
     padding-right: 0 !important;
 }
