@@ -3,7 +3,7 @@
 	<name>MaHarder Assets</name>
 	<description>Универсальная административная панель для модификаций от MaHarder</description>
 	<icon></icon>
-	<version>1.5</version>
+	<version>1.5.0.1</version>
 	<dleversion>13</dleversion>
 	<versioncompare>greater</versioncompare>
 	<mysqlinstall><![CDATA[]]></mysqlinstall>
@@ -13,7 +13,8 @@
 	<mysqldelete><![CDATA[]]></mysqldelete>
 	<file name="engine/inc/maharder/assets/functions.php">
 		<operation action="create">
-			<replacecode><![CDATA[if( !defined( 'DATALIFEENGINE' ) ) die( "Oh! You little bastard!" );
+			<replacecode><![CDATA[<?php
+if( !defined( 'DATALIFEENGINE' ) ) die( "Oh! You little bastard!" );
 
 $cssfiles = [
     'engine/skins/maharder/css/frame.css',
