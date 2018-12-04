@@ -3,9 +3,11 @@
 	<name>MaHarder Assets</name>
 	<description>Универсальная административная панель для модификаций от MaHarder</description>
 	<icon></icon>
-	<version>1.7</version>
+	<version>1.7.0.1</version>
 	<dleversion>13</dleversion>
 	<versioncompare>greater</versioncompare>
+	<upgradeurl></upgradeurl>
+	<filedelete>1</filedelete>
 	<mysqlinstall><![CDATA[]]></mysqlinstall>
 	<mysqlupgrade><![CDATA[]]></mysqlupgrade>
 	<mysqlenable><![CDATA[]]></mysqlenable>
@@ -17,6 +19,7 @@
 			<replacecode><![CDATA['engine/skins/maharder/css/fa_fix.css',
 'engine/skins/maharder/css/fa_old.css',
 'engine/skins/maharder/css/fa_new.css',]]></replacecode>
+			<searchcount>1</searchcount>
 		</operation>
 	</file>
 </dleplugin>
