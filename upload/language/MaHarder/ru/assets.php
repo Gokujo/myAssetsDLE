@@ -1,8 +1,14 @@
 <?php
 
 $mh_lang = array(
-
-    'functions_24'          =>      "Неустановлен модуль MaHarder Assets. Последняя версия: <a href=\"https://github.com/Gokujo/myAssetsDLE\">https://github.com/Gokujo/myAssetsDLE</a>",
+	'functions_31'          =>      "Неустановлен модуль MaHarder Assets. Последняя версия: <a href=\"https://github.com/Gokujo/myAssetsDLE\">https://github.com/Gokujo/myAssetsDLE</a>",
+	'functions_30'          =>      "Инструкции по установке и обновлению, а так-же документация...",
+	'functions_29'          =>      "Версия",
+	'functions_28'          =>      "Связь",
+	'functions_27'          =>      "Изменения",
+	'functions_26'          =>      "Выбрать",
+	'functions_25'          =>      "Автор",
+    'functions_24'          =>      "Настройки",
     'functions_23'          =>      "<strong>Финансовая поддержка (Добровольная)</strong>:",
     'functions_22'          =>      "<strong>Телеграм</strong>:",
     'functions_21'          =>      "<strong>Автор</strong>:",
