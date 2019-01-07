@@ -21,6 +21,7 @@ $cssfiles = [
 $jsfiles = [
     'engine/skins/maharder/js/frame.js',
     'engine/skins/maharder/js/simple-modal.js',
+    'engine/skins/maharder/js/autosize.min.js',
     'engine/skins/maharder/js/app.js',
 ];
 
@@ -28,7 +29,6 @@ $mh_mod_lang = $mh_mod_lang ? $mh_mod_lang : 'ru';
 @include (DLEPlugins::Check(ROOT_DIR . '/language/MaHarder/'.$mh_mod_lang.'/assets.php'));
 
 function impFiles($type, $files) {
-    global $config;
     foreach ($files as $file) {
         if($type=='css')  $out[] = "<link rel=\"stylesheet\" href=\"".$file."\">";
         if($type=='js')  $out[] = "<script src=\"".$file."\"></script>";
@@ -36,13 +36,26 @@ function impFiles($type, $files) {
     echo implode("", $out);
 }
 
+function myLoader() {
+	echo <<<HTML
+<div class="loader">
+	<div class="loader-inner loader-one"></div>
+	<div class="loader-inner loader-two"></div>
+	<div class="loader-inner loader-three"></div>
+</div>
+HTML;
+}
+
 function boxes($list) {
     $out = '<div class="ui top attached tabular menu" id="box-navi">';
     $count = 0;
     foreach ($list as $name => $keys) {
-        if($count == 0) $active = " active";
-        else $active = "";
-        $out .= '<a href="#" class="item'.$active.'" data-tab="'.$name.'"><i class="'.$keys['icon'].'"></i>&nbsp;&nbsp;'.$keys['name'].'</a>';
+        $active = ($count == 0) ? " active" : "";
+	    $keys['link'] = $keys['link'] ? $keys['link'] : "#";
+	    if($keys['link'] != '#')
+            $out .= '<a href="'.$keys['link'].'" class="item'.$active.'"><i class="'.$keys['icon'].'"></i>&nbsp;&nbsp;'.$keys['name'].'</a>';
+	    else
+            $out .= '<a href="'.$keys['link'].'" class="item'.$active.'" data-tab="'.$name.'"><i class="'.$keys['icon'].'"></i>&nbsp;&nbsp;'.$keys['name'].'</a>';
         $count++;
     }
     $out .= '</div>';
@@ -50,24 +63,21 @@ function boxes($list) {
 }
 
 function segment($name, $inhalt, $first = FALSE) {
-    if($first) $active = " active";
-    else $active = "";
+    $active  = $first ? " active": "";
     $input = implode("", $inhalt);
     $out = '<div class="ui bottom attached tab segment'.$active.'" data-tab="'.$name.'"><div class="ui four column grid">'.$input.'</div></div>';
     echo $out;
 }
 
 function segmentTable($name, $inhalt, $first = FALSE) {
-    if($first) $active = " active";
-    else $active = "";
+	$active  = $first ? " active": "";
     $input = $inhalt;
     $out = '<div class="ui bottom attached tab segment'.$active.'" data-tab="'.$name.'"><table class="ui striped table">'.$input.'</table></div>';
     echo $out;
 }
 
 function addInput($name, $value, $label, $chosen = false, $type = "text") {
-    if($chosen) $placebo = "class=\"chosen\"";
-    else $placebo = "";
+	$placebo  = $chosen ? "class=\"chosen\"": "";
     $out = "<div class=\"field\"><input type=\"{$type}\" id=\"{$name}\" name=\"save[{$name}]\" placeholder=\"{$label}\" value=\"{$value}\" {$placebo}></div>";
     return $out;
 }
@@ -105,45 +115,6 @@ function addSelect($name, $value, $label, $selected) {
 }
 
 function addChosenSelect($name, $value, $selected) {
-//    global $db, $mh_lang;
-//    $tempList = array();
-//    $sels = explode(',', $selected);
-//    if($value == 'cats') {
-//        $cats = $db->query("SELECT id, name FROM " . PREFIX . "_category");
-//        while ($entry = $db->get_array($cats)){
-//            if(in_array($entry['id'], $sels))
-//                $tempList[] = "<option value=\"" . $entry['id'] . "\" selected>" . $entry['name'] . "</option>";
-//            else
-//                $tempList[] = "<option value=\"" . $entry['id'] . "\">" . $entry['name'] . "</option>";
-//        }
-//        unset($cats);
-//    } elseif (is_array($value)) {
-//        foreach ($value as $id => $data) {
-//            if(in_array($id, $sels))
-//                $tempList[] = "<option value=\"" . $id . "\" selected>" . $data . "</option>";
-//            else
-//                $tempList[] = "<option value=\"" . $id . "\">" . $data . "</option>";
-//        }
-//    }
-//    $output = "<div class=\"inline field\"><select id=\"{$name}\" name=\"save[{$name}]\" class=\"ui search multiple selection\" multiple>";
-//    $output .= implode('', $tempList);
-//    $output .= "</select></div>";
-//    $output .= "<script>
-//
-//$(function() {
-//    $('#{$name}').dropdown({
-//        fields: {
-//            values: '{$selected}'
-//        }
-//    })
-//});
-//
-//
-//</script>";
-//
-//
-//    unset($tempList);
-
     global $db;
     $tempList = array();
     $tempList2 = array();
@@ -201,8 +172,7 @@ function segRow($name, $descr, $action, $id = "") {
 }
 
 function formMessage ($id, $header, $text, $show = false) {
-    if($show == false) $display = " style='display:none'";
-    else $display = "";
+    $display = ($show == false) ? " style='display:none'" : "";
     $out = <<<HTML
 <div id='{$id}' class="ui warning message"{$display}>
     <div class="header">{$header}</div>
@@ -221,10 +191,17 @@ function addList ($points = "") {
 }
 
 function author($type) {
-    global $author, $changes;
+    global $author, $changes, $mh_lang;
     switch ($type) {
         case 'name':
-            return $author['name']." [<a href=\"{$author['site']}\" target=\"_blank\">сайт</a>]";
+        	if (is_array($author['name'])) {
+        		$out = array();
+        	    for($i = 0; $i < count($author['name']); $i++) {
+        	    	$out[] = $author['name'][$i]." [<a href=\"{$author['site'][$i]}\" target=\"_blank\">{$mh_lang['functions_32']}</a>]";
+	            }
+        	    return "<ul><li>".implode("</li><li>", $out)."</li></ul>";
+	        } else
+                return $author['name']." [<a href=\"{$author['site']}\" target=\"_blank\">{$mh_lang['functions_32']}</a>]";
             break;
 
         case 'social':

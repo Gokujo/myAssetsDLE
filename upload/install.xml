@@ -3,7 +3,7 @@
 	<name>MaHarder Assets</name>
 	<description>Универсальная административная панель для модификаций от MaHarder</description>
 	<icon></icon>
-	<version>1.7.0.1</version>
+	<version>1.7.1</version>
 	<dleversion>13</dleversion>
 	<versioncompare>greater</versioncompare>
 	<upgradeurl></upgradeurl>
