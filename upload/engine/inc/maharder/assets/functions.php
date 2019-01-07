@@ -36,16 +36,6 @@ function impFiles($type, $files) {
     echo implode("", $out);
 }
 
-function myLoader() {
-	echo <<<HTML
-<div class="loader">
-	<div class="loader-inner loader-one"></div>
-	<div class="loader-inner loader-two"></div>
-	<div class="loader-inner loader-three"></div>
-</div>
-HTML;
-}
-
 function boxes($list) {
     $out = '<div class="ui top attached tabular menu" id="box-navi">';
     $count = 0;
@@ -62,10 +52,12 @@ function boxes($list) {
     echo $out;
 }
 
-function segment($name, $inhalt, $first = FALSE) {
+function segment($name, $inhalt, $first = FALSE, $loading_text = FALSE) {
+	global $mh_lang;
+	$loading_text = $loading_text ? $loading_text : $mh_lang['functions_33'];
     $active  = $first ? " active": "";
     $input = implode("", $inhalt);
-    $out = '<div class="ui bottom attached tab segment'.$active.'" data-tab="'.$name.'"><div class="ui four column grid">'.$input.'</div></div>';
+    $out = '<div class="ui bottom attached tab segment'.$active.'" data-tab="'.$name.'"><div class="ui inverted dimmer"><div class="ui tiny text loader">'.$loading_text.'</div></div><div class="ui four column grid">'.$input.'</div></div>';
     echo $out;
 }
 
@@ -225,6 +217,14 @@ function author($type) {
             $out[] = "</ul>";
             return implode("", $out);
             break;
+	    case 'donate':
+	    	$out[] = "<ul>";
+		    foreach($author['donate'] as $name => $link) {
+			    $out[] = "<li><b>{$name}</b>: {$link}</li>";
+		    }
+		    $out[] = "</ul>";
+		    return implode("", $out);
+		    break;
     }
 }
 
@@ -367,7 +367,7 @@ function docPage ($columnOne, $columnTwo, $helplink = "", $sitelink = "") {
                     </ul>
                     <p>{$mh_lang['functions_20']}</p>
                     <ul>
-                        <li><{$mh_lang['functions_21']} Maxim Harder</li>
+                        <li>{$mh_lang['functions_21']} Maxim Harder</li>
                         <li>{$mh_lang['functions_22']} <a href="https://t.me/MaHarder" target="_blank" rel="noopener">MaHarder</a></li>
                     </ul>
                     <p>{$mh_lang['functions_23']}</p>
