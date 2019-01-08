@@ -52,19 +52,19 @@ function boxes($list) {
     echo $out;
 }
 
-function segment($name, $inhalt, $first = FALSE, $loading_text = FALSE) {
+function segment($name, $inhalt, $first = FALSE, $loading_text = FALSE, $after = "") {
 	global $mh_lang;
 	$loading_text = $loading_text ? $loading_text : $mh_lang['functions_33'];
     $active  = $first ? " active": "";
     $input = implode("", $inhalt);
-    $out = '<div class="ui bottom attached tab segment'.$active.'" data-tab="'.$name.'"><div class="ui inverted dimmer"><div class="ui tiny text loader">'.$loading_text.'</div></div><div class="ui four column grid">'.$input.'</div></div>';
+    $out = '<div class="ui bottom attached tab segment'.$active.'" data-tab="'.$name.'"><div class="ui inverted dimmer"><div class="ui tiny text loader">'.$loading_text.'</div></div><div class="ui four column grid">'.$input.'</div>'.$after.'</div>';
     echo $out;
 }
 
-function segmentTable($name, $inhalt, $first = FALSE) {
+function segmentTable($name, $inhalt, $first = FALSE, $loading_text = FALSE, $after = "") {
 	$active  = $first ? " active": "";
     $input = $inhalt;
-    $out = '<div class="ui bottom attached tab segment'.$active.'" data-tab="'.$name.'"><table class="ui striped table">'.$input.'</table></div>';
+    $out = '<div class="ui bottom attached tab segment'.$active.'" data-tab="'.$name.'"><div class="ui inverted dimmer"><div class="ui tiny text loader">'.$loading_text.'</div></div><table class="ui striped table">'.$input.'</table>'.$after.'</div>';
     echo $out;
 }
 
@@ -441,18 +441,8 @@ function createTable($body, $header = "", $footer = "") {
     $tbody = [];
     $tfoot = [];
 
-    $tbody[] = "<tbody>";
-    foreach ($body as $row => $item) {
-        $tbody[] = "<tr>";
-        foreach ($item as $value) {
-            $tbody[] = "<td>" . $value . "</td>";
-        }
-        $tbody[] = "</tr>";
-    }
-    $tbody[] = "</tbody>";
-
     if(!empty($header)) {
-        $thead[] = "<thead><tr>";
+        $thead[] = "<thead class=\"full-width\"><tr>";
         foreach ($header as $name) {
             $tr = "<th>" . $name . "</th>";
             $thead[] = $tr;
@@ -461,10 +451,31 @@ function createTable($body, $header = "", $footer = "") {
     }
 
     if(!empty($footer)) {
-        $tfoot[] = "<tfoot><tr>";
+        $tfoot[] = "<tfoot class=\"full-width\"><tr>";
         $tfoot[] = $footer;
         $tfoot[] = "</tr></tfoot>";
     }
+
+    $tbody[] = "<tbody>";
+    foreach ($body as $row => $item) {
+        $tbody[] = "<tr>";
+        $this_cols = count($item);
+        if(isset($header)) $th_count = count($header);
+        else $th_count = 0;
+        foreach ($item as $value) {
+            if(isset($header))
+                if($this_cols != $th_count) {
+                    $dif = $th_count - $this_cols + 1;
+                    $cols = " colspan='" . $dif . "'";
+                    if(end($item) == $value) $tbody[] = "<td{$cols}><center>" . $value . "</center></td>";
+                    else $tbody[] = "<td>" . $value . "</td>";
+                }
+            else
+                $tbody[] = "<td>" . $value . "</td>";
+        }
+        $tbody[] = "</tr>";
+    }
+    $tbody[] = "</tbody>";
 
     $output[] = implode("", $thead);
     $output[] = implode("", $tbody);
