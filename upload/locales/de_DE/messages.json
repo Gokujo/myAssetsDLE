@@ -1,0 +1,891 @@
+{
+    "code": "de_DE",
+    "iso2": "de",
+    "name": "German",
+    "phrases": [
+        {
+            "original": "Start search",
+            "translation": "Suche anfangen"
+        },
+        {
+            "original": "Find next",
+            "translation": "Finde nächste"
+        },
+        {
+            "original": "Find previous",
+            "translation": "Finde vorherige"
+        },
+        {
+            "original": "Replace",
+            "translation": "Ersetzen"
+        },
+        {
+            "original": "Replace all",
+            "translation": "Alles ersetzen"
+        },
+        {
+            "original": "Пожалуйста, подождите...",
+            "translation": "Bitte, warten Sie..."
+        },
+        {
+            "original": "Oh! You little bastard!",
+            "translation": "Oh! Du kleiner Bastard!"
+        },
+        {
+            "original": "Сохранить",
+            "translation": "Speichern"
+        },
+        {
+            "original": "Новое звено в списке",
+            "translation": "Neuer Punkt in der Liste"
+        },
+        {
+            "original": "Скрытый текст",
+            "translation": "Versteckter Text"
+        },
+        {
+            "original": "Сайт",
+            "translation": "Webseite"
+        },
+        {
+            "original": "Язык",
+            "translation": "Sprache"
+        },
+        {
+            "original": "Языковые настройки",
+            "translation": "Spracheinstellungen"
+        },
+        {
+            "original": "Настройки разработчика",
+            "translation": "Entwicklereinstellungen"
+        },
+        {
+            "original": "Автор",
+            "translation": "Autor"
+        },
+        {
+            "original": "Список языков",
+            "translation": "Liste der Sprachen"
+        },
+        {
+            "original": "Перейти",
+            "translation": "Gehe zu"
+        },
+        {
+            "original": "Стандартный язык",
+            "translation": "Standardsprache"
+        },
+        {
+            "original": "Язык по умолчанию, пока пользователь не переключит его на свой",
+            "translation": "Die Standardsprache, bis der Benutzer sie auf seine eigene Sprache umschaltet"
+        },
+        {
+            "original": "Запасной язык",
+            "translation": "Ersatzsprache"
+        },
+        {
+            "original": "Если у основного языка не будет перевода или произойдёт какая-либо ошибка, то на какой язык переключить?",
+            "translation": "Wenn die Hauptsprache keine Übersetzung hat oder ein Fehler auftritt, zu welcher Sprache sollte dann gewechselt werden?"
+        },
+        {
+            "original": "Путь до языковых файлов",
+            "translation": "Pfad zu Sprachdateien"
+        },
+        {
+            "original": "Стандартный путь до языковых файлов /locales.",
+            "translation": "Der Standardpfad von Sprachdateien: locales."
+        },
+        {
+            "original": "Переменная для COOKIE",
+            "translation": "Variable für Cookie"
+        },
+        {
+            "original": "Используемый язык будет браться из куки браузера.",
+            "translation": "Die verwendete Sprache wird aus den Browser-Cookies übernommen."
+        },
+        {
+            "original": "Отлажка",
+            "translation": "Debug"
+        },
+        {
+            "original": "Включить отлаживание ошибок в системе. Это поможет в разработке и выявлении неисправностей в скриптах",
+            "translation": "Aktivieren Sie das Systemdebugging. Dies hilft bei der Entwicklung und Fehlerbehebung von Skripten."
+        },
+        {
+            "original": "Документация",
+            "translation": "Dokumentation"
+        },
+        {
+            "original": "Инструкции по установке, использованию, обновлению...",
+            "translation": "Anweisungen zum Installieren, Verwenden, Aktualisieren ..."
+        },
+        {
+            "original": "Связь",
+            "translation": "Kontakt"
+        },
+        {
+            "original": "Версия модуля",
+            "translation": "Modulversion"
+        },
+        {
+            "original": "Изменения",
+            "translation": "Änderungen"
+        },
+        {
+            "original": "Всё хорошо!",
+            "translation": "Alles ist gut!"
+        },
+        {
+            "original": "Все данные были сохранены!",
+            "translation": "Alle Daten wurden gespeichert!"
+        },
+        {
+            "original": "Языковой код",
+            "translation": "Sprachcode"
+        },
+        {
+            "original": "Название",
+            "translation": "Name"
+        },
+        {
+            "original": "Интернациональное",
+            "translation": "International"
+        },
+        {
+            "original": "Папка",
+            "translation": "Verzeichnis"
+        },
+        {
+            "original": "Флаг",
+            "translation": "Flagge"
+        },
+        {
+            "original": "Доступен",
+            "translation": "Verfügbar"
+        },
+        {
+            "original": "Действие",
+            "translation": "Aktion"
+        },
+        {
+            "original": "Укажи интернациональный код языка. Пример: ru_RU",
+            "translation": "Geben Sie den internationalen Sprachcode an. Beispiel: de_DE"
+        },
+        {
+            "original": "Укажи интернациональный код языка в формате ISO-2. Пример: ru",
+            "translation": "Geben Sie den internationalen Sprachcode im ISO-2-Format an. Beispiel: de"
+        },
+        {
+            "original": "Укажите название языка.",
+            "translation": "Geben Sie den Namen der Sprache an."
+        },
+        {
+            "original": "Укажите название языка. Желательно в нативном правописании",
+            "translation": "Geben Sie den Namen der Sprache an. Vorzugsweise in nativer Schreibweise"
+        },
+        {
+            "original": "Укажите папку с языком в папке languages.",
+            "translation": "Geben Sie den Sprachverzeichnis in language-Verzeichnis an."
+        },
+        {
+            "original": "Укажите ссылку на флаг языка.",
+            "translation": "Geben Sie einen Link für die Flagge ein."
+        },
+        {
+            "original": "Удалить",
+            "translation": "Löschen"
+        },
+        {
+            "original": "Пересоздать",
+            "translation": "Neu erstellen"
+        },
+        {
+            "original": "Добавить язык",
+            "translation": "Sprache hinzufügen"
+        },
+        {
+            "original": "Добавить новый язык",
+            "translation": "Neue Sprache hinzufügen"
+        },
+        {
+            "original": "Название языка",
+            "translation": "Name der Sprache"
+        },
+        {
+            "original": "Папка с языком системы",
+            "translation": "Systemsprachenverzeichnis"
+        },
+        {
+            "original": "Ссылка на флаг",
+            "translation": "Flagge-URL"
+        },
+        {
+            "original": "Включить язык?",
+            "translation": "Sprache aktivieren?"
+        },
+        {
+            "original": "Отмена",
+            "translation": "Abbrechen"
+        },
+        {
+            "original": "Все возможные коды можно найти здесь: &lt;a href=&quot;http://www.i18nguy.com/unicode/language-identifiers.html&quot; target=&quot;_blank&quot;&gt;i18nguy&lt;/a&gt;",
+            "translation": "Alle möglichen Codes finden Sie hier: &lt;a href=&quot;http://www.i18nguy.com/unicode/language-identifiers.html&quot; target=&quot;_blank&quot;&gt;i18nguy&lt;/a&gt;"
+        },
+        {
+            "original": "Интернациональное название языка",
+            "translation": "Internationaler Name der Sprache"
+        },
+        {
+            "original": "Пересоздание полей",
+            "translation": "Felder neu erstellen"
+        },
+        {
+            "original": "При выполнении этого действия будут удалены все существующие поля и их содержимое! Продолжить?",
+            "translation": "Bei dieser Aktion werden alle vorhandenen Felder und deren Inhalte gelöscht! Weiter?"
+        },
+        {
+            "original": "Сохранить существующие данные",
+            "translation": "Vorhandene Daten speichern"
+        },
+        {
+            "original": "MaHarder Assets",
+            "translation": "MaHarder Assets"
+        },
+        {
+            "original": "Модификация для админпанели и глобальные функции для моих разработок",
+            "translation": "Modifikation für das Admin Panel und globale Funktionen für meine Entwicklungen"
+        },
+        {
+            "original": "Добавлена функция понятных переводов. Читаем документацию.",
+            "translation": "Die Funktion klarer Übersetzungen wurde hinzugefügt. Dokumentation lesen."
+        },
+        {
+            "original": "Обновлены стили и иконки. Подправлена поддержка адаптивности.",
+            "translation": "Aktualisierte Stile und Icons. Unterstützung für Responsive hinzugefügt."
+        },
+        {
+            "original": "Обновлены функции.",
+            "translation": "Aktualisierte Funktionen."
+        },
+        {
+            "original": "Перенос функционала на AJAX режим.",
+            "translation": "Übertragung der Funktionalität in den AJAX-Modus."
+        },
+        {
+            "original": "Подготовка функционала к проверкам лицензий. Возможно, часть кода будет закодирована.",
+            "translation": "Vorbereitung der Funktionalität für Lizenzprüfungen. Möglicherweise wird ein Teil des Codes verschlüsselt."
+        },
+        {
+            "original": "Поддержка ТОЛЬКО для DLE 13.x и выше!",
+            "translation": "Unterstützung NUR für DLE 13.x und höher!"
+        },
+        {
+            "original": "Несовместимость с версиями модуля ниже 2.0!",
+            "translation": "Inkompatibilität mit Modulversionen unter 2.0!"
+        },
+        {
+            "original": "Обновление иконок от fontawesome глобально",
+            "translation": "Globale Iconsaktualisierung von fontawesome"
+        },
+        {
+            "original": "Обновление многих функций",
+            "translation": "Aktualisierung vieler Funktionen"
+        },
+        {
+            "original": "Добавлен немецкий язык к оболочке",
+            "translation": "Deutsch hinzugefügt"
+        },
+        {
+            "original": "Небольшой фикс",
+            "translation": "Kleiner Fix"
+        },
+        {
+            "original": "Новые модальные и всплывающие окна",
+            "translation": "Neue Modal- und Pop-Up-Fenster"
+        },
+        {
+            "original": "Улучшены некоторые функции",
+            "translation": "Einige Funktionen wurden verbessert"
+        },
+        {
+            "original": "Добавлен скрипт DateTimePicker",
+            "translation": "DateTimePicker-Skript hinzugefügt"
+        },
+        {
+            "original": "Добавлены несколько украшательств",
+            "translation": "Mehrere Dekorationen hinzugefügt"
+        },
+        {
+            "original": "Вывод категорий",
+            "translation": "Kategorie Ausgabe"
+        },
+        {
+            "original": "добавлен автоматический вывод доп. полей в админке",
+            "translation": "Ausgabe von zusätzlichen Feldern in der Admin Panel hinzugefügt"
+        },
+        {
+            "original": "добавлен автоматический вывод пользователей",
+            "translation": "automatische Benutzerausgabe hinzugefügt"
+        },
+        {
+            "original": "исправлено пару багов в JS",
+            "translation": "Einige Fehler in JS wurden behoben"
+        },
+        {
+            "original": "Bash скрипт для создания плагина для DLE 13.x и выше",
+            "translation": "Bash-Skript zum Erstellen eines Plugins für DLE 13.x und höher"
+        },
+        {
+            "original": "Базовая версия",
+            "translation": "Basisversion"
+        },
+        {
+            "original": "Поддержка DLE 11.x, 12.x, 13.x",
+            "translation": "Unterstützung für DLE 11.x, 12.x, 13.x."
+        },
+        {
+            "original": "Перестроить языковые файлы",
+            "translation": "Sprachdateien neu erstellen"
+        },
+        {
+            "original": "Всё плохо!",
+            "translation": "Alles ist schlecht!"
+        },
+        {
+            "original": "Hacking attempt!",
+            "translation": "Versuchter Hackangriff!"
+        },
+        {
+            "original": "Brosch&uuml;ren",
+            "translation": "Broschüren"
+        },
+        {
+            "original": "Ctrl",
+            "translation": "STRG"
+        },
+        {
+            "original": "Shift",
+            "translation": "Shift"
+        },
+        {
+            "original": "Alt",
+            "translation": "Alt"
+        },
+        {
+            "original": "Cancel",
+            "translation": "Abbrechnen"
+        },
+        {
+            "original": "Text",
+            "translation": ""
+        },
+        {
+            "original": "Update",
+            "translation": "Aktualisieren"
+        },
+        {
+            "original": "HEX Color",
+            "translation": "HEX Farbe"
+        },
+        {
+            "original": "OK",
+            "translation": ""
+        },
+        {
+            "original": "Color",
+            "translation": "Farbe"
+        },
+        {
+            "original": "Clear Formatting",
+            "translation": "Formatierung löschen"
+        },
+        {
+            "original": "Insert",
+            "translation": "Einfügen"
+        },
+        {
+            "original": "Break",
+            "translation": "Umbruch"
+        },
+        {
+            "original": "Background",
+            "translation": "Hintergrund"
+        },
+        {
+            "original": "URL",
+            "translation": ""
+        },
+        {
+            "original": "Open in new tab",
+            "translation": "In neuem Tab öffnen"
+        },
+        {
+            "original": "Something went wrong. Please try again.",
+            "translation": "Etwas ist schief gelaufen. Bitte versuche es erneut."
+        },
+        {
+            "original": "Uploading",
+            "translation": "Wird hoch geladen"
+        },
+        {
+            "original": "Loading image",
+            "translation": "Bild wird geladen"
+        },
+        {
+            "original": "Drop image",
+            "translation": "Bild löschen (?)"
+        },
+        {
+            "original": "or click",
+            "translation": "oder klicken Sie auf"
+        },
+        {
+            "original": "Alternative Text",
+            "translation": "Alternativer Text"
+        },
+        {
+            "original": "Width",
+            "translation": "Breite"
+        },
+        {
+            "original": "Height",
+            "translation": "Höhe"
+        },
+        {
+            "original": "Image Caption",
+            "translation": "Bildbeschreibung"
+        },
+        {
+            "original": "Word Paste Detected",
+            "translation": "Word-Formatierung erkannt"
+        },
+        {
+            "original": "The pasted content is coming from a Microsoft Word document. Do you want to keep the format or clean it up?",
+            "translation": "Der eingefügte Inhalt stammt aus einem Microsoft Word-Dokument. Möchten Sie das Format beibehalten oder bereinigen?"
+        },
+        {
+            "original": "Clean",
+            "translation": "Bereinigen"
+        },
+        {
+            "original": "Keep",
+            "translation": "Behalten"
+        },
+        {
+            "original": "Link to the video",
+            "translation": "Link zum Video"
+        },
+        {
+            "original": "Description",
+            "translation": "Beschreibung"
+        },
+        {
+            "original": "Link to the poster",
+            "translation": "Link zum Poster"
+        },
+        {
+            "original": "Add to Playlist",
+            "translation": "Zur Wiedergabeliste hinzufügen"
+        },
+        {
+            "original": "Embedded Code",
+            "translation": "Eingebetteter Code"
+        },
+        {
+            "original": "Link to the audio",
+            "translation": "Link zum Audio"
+        },
+        {
+            "original": "Insert source code",
+            "translation": "Quellcode einfügen"
+        },
+        {
+            "original": "Alignment",
+            "translation": "Ausrichtung"
+        },
+        {
+            "original": "Not used",
+            "translation": "Nicht benutzt"
+        },
+        {
+            "original": "Left",
+            "translation": "Links"
+        },
+        {
+            "original": "Right",
+            "translation": "Rechts"
+        },
+        {
+            "original": "Center",
+            "translation": "Zentriert"
+        },
+        {
+            "original": "Insert Image",
+            "translation": "Bild einfügen"
+        },
+        {
+            "original": "Image URL",
+            "translation": "Bild URL"
+        },
+        {
+            "original": "Alternate Text",
+            "translation": "Alternativer Text"
+        },
+        {
+            "original": "Server response wasn't proper JSON.",
+            "translation": "Die Serverantwort war kein richtiger JSON."
+        },
+        {
+            "original": "The spelling service was not found: (",
+            "translation": "Der Rechtschreibdienst wurde nicht gefunden: ("
+        },
+        {
+            "original": "No misspellings found.",
+            "translation": "Keine Rechtschreibfehler gefunden."
+        },
+        {
+            "original": "No color",
+            "translation": "Keine Farbe"
+        },
+        {
+            "original": "Custom...",
+            "translation": "Benutzerdefiniert..."
+        },
+        {
+            "original": "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X/C/V keyboard shortcuts instead.",
+            "translation": "Ihr Browser unterstützt keinen direkten Zugriff auf die Zwischenablage. Verwenden Sie stattdessen die Tastenkombinationen Strg + X / C / V."
+        },
+        {
+            "original": "Image uploading...",
+            "translation": "Bild wird hochladen..."
+        },
+        {
+            "original": "Rich Text Area. Press ALT-F9 for menu. Press ALT-F10 for toolbar. Press ALT-0 for help",
+            "translation": "Rich-Text-Bereich. Drücken Sie ALT-F9 für das Menü. Drücken Sie ALT-F10 für die Symbolleiste. Drücken Sie ALT-0, um Hilfe zu erhalten"
+        },
+        {
+            "original": "Men&uuml;s",
+            "translation": "Menüs"
+        },
+        {
+            "original": "Men&uuml;",
+            "translation": "Menü"
+        },
+        {
+            "original": "Aktiviert?",
+            "translation": "Aktiviert?"
+        },
+        {
+            "original": "Code",
+            "translation": "Code"
+        },
+        {
+            "original": "Gebe eine Men&uuml;bezeichnung ein",
+            "translation": "Gebe eine Menübezeichnung ein"
+        },
+        {
+            "original": "Punkte bearbeiten",
+            "translation": "Punkte bearbeiten"
+        },
+        {
+            "original": "Men&uuml; erstellen",
+            "translation": "Menü erstellen"
+        },
+        {
+            "original": "Все данные были сохранены!",
+            "translation": "Alles wurde gespeichert!"
+        },
+        {
+            "original": "Всё хорошо!",
+            "translation": "Alles ist in Ordnung!"
+        },
+        {
+            "original": "Men&uuml;bezeichnung",
+            "translation": "Menübezeichnung"
+        },
+        {
+            "original": "Aktivieren?",
+            "translation": "Aktivieren?"
+        },
+        {
+            "original": "Erstellen",
+            "translation": "Erstellen"
+        },
+        {
+            "original": "Abbrechnen",
+            "translation": "Abbrechnen"
+        },
+        {
+            "original": "Neues Men&uuml;",
+            "translation": "Neues Menü"
+        },
+        {
+            "original": "Men&uuml;designer",
+            "translation": "Menüdesigner"
+        },
+        {
+            "original": "Ein Werkzeug zum Erstellen von Men&uuml;s auf der Seite",
+            "translation": "Ein Werkzeug zum Erstellen von Menüs auf der Seite"
+        },
+        {
+            "original": "Поддержка DLE 14.x",
+            "translation": "Unterstützung von DLE 14.x"
+        },
+        {
+            "original": "Скачать файл",
+            "translation": "Datei herunterladen"
+        },
+        {
+            "original": "cкачиваний",
+            "translation": "Downloads"
+        },
+        {
+            "original": "Посмотреть онлайн файл",
+            "translation": "Datei online ansehen"
+        },
+        {
+            "original": "У вас нет доступа к скачиванию файлов с нашего сервера",
+            "translation": "Sie haben keine Rechte Dateien von unserem Server runterladen zu können"
+        },
+        {
+            "original": "Vorheriger Beitrag",
+            "translation": "Vorheriger Beitrag"
+        },
+        {
+            "original": "N&auml;chster Beitrag",
+            "translation": "Nächster Beitrag"
+        },
+        {
+            "original": "Kommentare",
+            "translation": "Kommentare"
+        },
+        {
+            "original": "News",
+            "translation": "News"
+        },
+        {
+            "original": "Produkte",
+            "translation": "Produkte"
+        },
+        {
+            "original": "JAS Produkte",
+            "translation": "JAS Produkte"
+        },
+        {
+            "original": "AlyTech Produkte",
+            "translation": "AlyTech Produkte"
+        },
+        {
+            "original": "Service",
+            "translation": ""
+        },
+        {
+            "original": "Unser Servicenetz",
+            "translation": "Unser Servicenetz"
+        },
+        {
+            "original": "Technischer Service",
+            "translation": "Technischer Service"
+        },
+        {
+            "original": "Unternehmen",
+            "translation": "Unternehmen"
+        },
+        {
+            "original": "&Uuml;ber uns",
+            "translation": "Über uns"
+        },
+        {
+            "original": "Philosophie",
+            "translation": "Philosophie"
+        },
+        {
+            "original": "Corporate Governance",
+            "translation": ""
+        },
+        {
+            "original": "Qualit&auml;t",
+            "translation": "Qualität"
+        },
+        {
+            "original": "Umwelt",
+            "translation": "Umwelt"
+        },
+        {
+            "original": "Arbeits- und Gesundheitsschutz",
+            "translation": "Arbeits- und Gesundheitsschutz"
+        },
+        {
+            "original": "Partner",
+            "translation": "Partner"
+        },
+        {
+            "original": "Kontakt",
+            "translation": "Kontakt"
+        },
+        {
+            "original": "Kontaktformular",
+            "translation": "Kontaktformular"
+        },
+        {
+            "original": "Ihr Weg zu uns",
+            "translation": "Ihr Weg zu uns"
+        },
+        {
+            "original": "Impressum",
+            "translation": "Impressum"
+        },
+        {
+            "original": "AGB",
+            "translation": "AGB"
+        },
+        {
+            "original": "Datenschutz",
+            "translation": "Datenschutz"
+        },
+        {
+            "original": "Information",
+            "translation": "Information"
+        },
+        {
+            "original": "Medien",
+            "translation": "Medien"
+        },
+        {
+            "original": "Flyer",
+            "translation": "Flyer"
+        },
+        {
+            "original": "Follow us",
+            "translation": "Folge uns"
+        },
+        {
+            "original": "Bearbeiten",
+            "translation": "Bearbeiten"
+        },
+        {
+            "original": "ID wurde nicht mit &uuml;bergeben oder ist keine Int!",
+            "translation": ""
+        },
+        {
+            "original": "Hersteller",
+            "translation": ""
+        },
+        {
+            "original": "Produktgruppe",
+            "translation": ""
+        },
+        {
+            "original": "Produkt",
+            "translation": ""
+        },
+        {
+            "original": "Herrsteller %s bearbeiten",
+            "translation": ""
+        },
+        {
+            "original": "Hersteller hinzuf&uuml;gen",
+            "translation": ""
+        },
+        {
+            "original": "Bezeichnung",
+            "translation": ""
+        },
+        {
+            "original": "Herstellerbezeichnung",
+            "translation": ""
+        },
+        {
+            "original": "Slug",
+            "translation": ""
+        },
+        {
+            "original": "URL-Bezeichnung, wenn das Feld leer ist, so wird es aus dem Namem deklariert.",
+            "translation": ""
+        },
+        {
+            "original": "Beschreibung",
+            "translation": ""
+        },
+        {
+            "original": "Meta-Bezeichnung",
+            "translation": ""
+        },
+        {
+            "original": "Bezeichnung, die im Browserkopf stat der normalen Bezeichnung erscheinen wird. Max. 65 Zeichen.",
+            "translation": ""
+        },
+        {
+            "original": "Meta-Beschreibung",
+            "translation": ""
+        },
+        {
+            "original": "Beschreibung, die f&uuml;r soziale Netzwerke und Suchmaschinen zusehen sein wird. Max. 145 Zeichen",
+            "translation": ""
+        },
+        {
+            "original": "Produktkonfigurator",
+            "translation": ""
+        },
+        {
+            "original": "Siehe Console des Browsers!",
+            "translation": ""
+        },
+        {
+            "original": "Bei der L&ouml;schung werden alle dazugeh&ouml;rigen Objekte und Inhalte mit gel&ouml;scht!",
+            "translation": ""
+        },
+        {
+            "original": "Achtung!",
+            "translation": ""
+        },
+        {
+            "original": "Nur dieses Objekt l&ouml;schen! Dazugeh&ouml;rigen Inhalt behalten!",
+            "translation": ""
+        },
+        {
+            "original": "Abbrechnen",
+            "translation": ""
+        },
+        {
+            "original": "L&ouml;schen",
+            "translation": ""
+        },
+        {
+            "original": "Produktgruppe %s bearbeiten",
+            "translation": ""
+        },
+        {
+            "original": "Produktgruppe hinzuf&uuml;gen",
+            "translation": ""
+        },
+        {
+            "original": "Produktgruppebezeichnung",
+            "translation": ""
+        },
+        {
+            "original": "Bild",
+            "translation": ""
+        },
+        {
+            "original": "Illustration zur Darstellung des Objektes",
+            "translation": ""
+        },
+        {
+            "original": "%s заменить?",
+            "translation": "%s ersetzen?"
+        },
+        {
+            "original": "Produkt %s bearbeiten",
+            "translation": ""
+        },
+        {
+            "original": "Produkt hinzuf&uuml;gen",
+            "translation": ""
+        },
+        {
+            "original": "Produktbezeichnung",
+            "translation": ""
+        }
+    ]
+}

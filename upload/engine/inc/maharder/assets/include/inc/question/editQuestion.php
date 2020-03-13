@@ -1,0 +1,55 @@
+<?php
+////////////////////////////////////////////////////////////
+// =======================================================
+// Mod: MaHarder Assets
+// File: addQuestion.php
+// Path: /engine/inc/maharder/assets/include/inc/question/addQuestion.php
+// =======================================================
+// Author: Maxim Harder (c) 2020
+// Website: https://maxim-harder.de / https://devcraft.club
+// Telegram: http://t.me/MaHarder
+// =======================================================
+// Do not change anything!
+// =======================================================
+////////////////////////////////////////////////////////////
+
+if( !defined( 'DATALIFEENGINE' ) ) {
+	header( "HTTP/1.1 403 Forbidden" );
+	header ( 'Location: ../../../../../../' );
+	die( "Hacking attempt!" );
+}
+
+$qs = [];
+$as = [];
+
+foreach ($i18n_lang['active'] as $code => $lang_ar) {
+	$iso = $lang_ar['iso2'];
+	$flag = "<img src='{$lang_ar['flag']}' alt='{$title}' title='{$title}' style='max-width: 23px;width: 100%;height: auto;'>";
+
+	if ($i18n->getLocale() == $code) {
+		$qs[] = "{$lang['opt_question_3']}<br><input type='text' name='question' id='question' class='classic' style='width:100%' value='\"+qa+\"' />";
+		$as[] = "{$lang['opt_question_4']}<br/><textarea name='answer' id='answer' class='classic' style='width:100%;height:100px;'>\"+ans+\"</textarea>";
+	} else {
+		$qs[] = "{$lang['opt_question_3']} {$flag}<br><input type='text' name='question_{$iso}' id='question_{$iso}' class='classic' style='width:100%' value='\"+qa_{$iso}+\"' />";
+		$as[] = "{$lang['opt_question_4']} {$flag}<br/><textarea name='answer_{$iso}' id='answer_{$iso}' class='classic' style='width:100%;height:100px;'>\"+ans_{$iso}+\"</textarea>";
+
+		echo <<<HTML
+
+			var qa_{$iso} = $('#answer_'+$(this).attr('uid')+'_{$iso}').data('question');
+			var ans_{$iso} = $('#answer_'+$(this).attr('uid')+'_{$iso}').val();
+			if (qa_{$iso} === undefined || qa_{$iso} === '') qa_{$iso} = qa;
+			if (ans_{$iso} === undefined || ans_{$iso} === '') ans_{$iso} = ans;
+
+HTML;
+	}
+
+}
+
+$qs = createTabs('question_etab', $qs);
+$as = createTabs('answer_etab', $as);
+
+echo <<<HTML
+$('body').append("<div id='dlepopup' title='{$lang['opt_question_2']}' style='display:none;'><form action='?mod=question' method='POST' name='saveform' id='saveform'>{$qs} <br> <br>{$as} <input type=\"hidden\" name=\"mod\" value=\"question\"><input type=\"hidden\" name=\"user_hash\" value=\"{$dle_login_hash}\"><input type=\"hidden\" name=\"action\" value=\"editquestion\"><input type=\"hidden\" name=\"id\" value=\""+id+"\"></form></div>");
+HTML;
+
+unset($qs, $as);

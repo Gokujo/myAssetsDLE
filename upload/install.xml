@@ -3,22 +3,886 @@
 	<name>MaHarder Assets</name>
 	<description>Универсальная административная панель для модификаций от MaHarder</description>
 	<icon></icon>
-	<version>1.7.0.1</version>
+	<version>2.0</version>
 	<dleversion>13</dleversion>
 	<versioncompare>greater</versioncompare>
 	<upgradeurl></upgradeurl>
 	<filedelete>1</filedelete>
-	<mysqlinstall><![CDATA[]]></mysqlinstall>
-	<mysqlupgrade><![CDATA[]]></mysqlupgrade>
-	<mysqlenable><![CDATA[]]></mysqlenable>
-	<mysqldisable><![CDATA[]]></mysqldisable>
-	<mysqldelete><![CDATA[]]></mysqldelete>
+	<needplugin></needplugin>
+	<mnotice>0</mnotice>
+	<mysqlinstall><![CDATA[DROP PROCEDURE IF EXISTS `DropColumnIfExists`;
+DELIMITER $$
+CREATE PROCEDURE `DropColumnIfExists` (`@TABLE` VARCHAR(100), `@COLUMN` VARCHAR(100))
+`DropColumnIfExists`: BEGIN
+    DECLARE `@EXISTS` INT UNSIGNED DEFAULT 0;
+
+    SELECT COUNT(*) INTO `@EXISTS`
+    FROM `information_schema`.`columns`
+    WHERE (
+        `TABLE_SCHEMA` = DATABASE()
+        AND `TABLE_NAME` = `@TABLE`
+        AND `COLUMN_NAME` = `@COLUMN`
+    );
+
+    IF (`@EXISTS` > 0) THEN
+        SET @SQL = CONCAT('ALTER TABLE `', `@TABLE`, '` DROP COLUMN `', `@COLUMN`, '`;');
+
+        PREPARE query FROM @SQL;
+        EXECUTE query;
+    END IF;
+END $$
+
+DELIMITER ;
+DROP PROCEDURE IF EXISTS `RedoColumns`;
+DELIMITER $$
+CREATE PROCEDURE `RedoColumns` (`@TABLE` VARCHAR(100), `@COLUMN` VARCHAR(100), `@PARAMS` TEXT)
+`RedoColumns`: BEGIN
+    DECLARE `@EXISTS` INT UNSIGNED DEFAULT 0;
+
+    SELECT COUNT(*) INTO `@EXISTS`
+    FROM `information_schema`.`columns`
+    WHERE (
+        `TABLE_SCHEMA` = DATABASE()
+        AND `TABLE_NAME` = `@TABLE`
+        AND `COLUMN_NAME` = `@COLUMN`
+    );
+
+    IF (`@EXISTS` = 0) THEN
+        SET @SQL = CONCAT('ALTER TABLE `', `@TABLE`, '` ADD `', `@COLUMN`, '` ', `@PARAMS`, '');
+
+        PREPARE query FROM @SQL;
+        EXECUTE query;
+    END IF;
+END $$
+
+DELIMITER ;
+
+create table {prefix}_languages
+(
+	id int auto_increment
+		primary key,
+	code varchar(5) null,
+	flag varchar(255) null,
+	name varchar(150) null,
+	iso2 varchar(3) null,
+	dir varchar(255) null,
+	active tinyint(1) default 1 null,
+	international varchar(255) null,
+	constraint dle_languages_code_uindex
+		unique (code)
+);]]></mysqlinstall>
+	<mysqlupgrade><![CDATA[DELETE FROM {prefix}_admin_sections WHERE name = 'maharder';
+INSERT INTO {prefix}_admin_sections (name, title, descr, icon, allow_groups) VALUES ('maharder', 'MaHarder Assets', 'Настройки языков и отладки', DEFAULT, '1, 2');]]></mysqlupgrade>
+	<mysqlenable><![CDATA[INSERT INTO {prefix}_admin_sections (name, title, descr, icon, allow_groups) VALUES ('maharder', 'MaHarder Assets', 'Настройки языков и отладки', DEFAULT, '1, 2');]]></mysqlenable>
+	<mysqldisable><![CDATA[DELETE FROM {prefix}_admin_sections WHERE name = 'maharder';]]></mysqldisable>
+	<mysqldelete><![CDATA[DROP PROCEDURE IF EXISTS `DropColumnIfExists`;
+DROP PROCEDURE IF EXISTS `RedoColumns`;
+DROP TABLE {prefix}_languages;]]></mysqldelete>
+	<phpinstall><![CDATA[]]></phpinstall>
+	<phpupgrade><![CDATA[]]></phpupgrade>
+	<phpenable><![CDATA[]]></phpenable>
+	<phpdisable><![CDATA[]]></phpdisable>
+	<phpdelete><![CDATA[]]></phpdelete>
+	<notice><![CDATA[]]></notice>
 	<file name="engine/inc/include/functions.inc.php">
 		<operation action="replace">
 			<searchcode><![CDATA['engine/skins/fonts/fontawesome/styles.min.css',]]></searchcode>
 			<replacecode><![CDATA['engine/skins/maharder/css/fa_fix.css',
 'engine/skins/maharder/css/fa_old.css',
 'engine/skins/maharder/css/fa_new.css',]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+	</file>
+	<file name="engine/inc/include/init.php">
+		<operation action="after">
+			<searchcode><![CDATA[require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/include/functions.inc.php'));]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/languages.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+	</file>
+	<file name="engine/inc/addnews.php">
+		<operation action="after">
+			<searchcode><![CDATA[<li id="tab-perimit"><a href="#tabperm" data-toggle="tab"><i class="fa fa-lock position-left"></i> {$lang['tabs_perm']}</a></li>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+			// MaHarder Assets
+			require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/addnews/tabs.php'));
+
+echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[							<div class="form-group">
+							  <label class="control-label col-md-2 col-sm-3">{$lang['vote_body']}<div class="text-muted text-size-small">{$lang['vote_str_1']}</div></label>
+							  <div class="col-md-10 col-sm-9">
+								<textarea rows="7" class="classic width-400" name="vote_body"></textarea>
+							  </div>
+							 </div>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+	// MaHarder Assets
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/addnews/poll.table.php'));
+
+					echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="before">
+			<searchcode><![CDATA[<div class="panel-footer">]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+	// MaHarder Assets
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/addnews/tabContent.php'));
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$id = $db->insert_id();]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/addnews/prePost.php'));]]></replacecode>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$db->query( "INSERT INTO " . PREFIX . "_poll (news_id, title, frage, body, votes, multiple, answer) VALUES('{$id}', '$vote_title', '$frage', '$vote_body', 0, '$allow_m_vote', '')" );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/addnews/poll.prePost.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[	if( $_POST['tags'] != "" AND $approve ) {
+
+		$tags = array ();
+
+		$_POST['tags'] = explode( ",", $_POST['tags'] );
+
+		foreach ( $_POST['tags'] as $value ) {
+
+			$tags[] = "('" . $id . "', '" . trim( $value ) . "')";
+		}
+
+		$tags = implode( ", ", $tags );
+		$db->query( "INSERT INTO " . PREFIX . "_tags (news_id, tag) VALUES " . $tags );
+
+	}]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/addnews/tags.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+	</file>
+	<file name="engine/inc/banners.php">
+		<operation action="after">
+			<searchcode><![CDATA[$db->query( "INSERT INTO " . PREFIX . "_banners (banner_tag, descr, code, approve, short_place, bstick, main, category, grouplevel, start, end, fpage, innews, devicelevel, allow_views, max_views, allow_counts, max_counts, rubric) values ('$banner_tag', '$banner_descr', '$banner_code', '$approve', '$short_place', '$bstick', '$main', '$category', '$grouplevel', '$start_date', '$end_date', '$fpage', '$innews', '$devicelevel', '$allow_views', '$max_views', '$allow_counts', '$max_counts', '$rub_id')" );]]></searchcode>
+			<replacecode><![CDATA[	// MaHarder Assets
+	$last_id = $db->insert_id();
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/banners/prePost.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$db->query( "UPDATE " . PREFIX . "_banners SET banner_tag='$banner_tag', descr='$banner_descr', code='$banner_code', approve='$approve', short_place='$short_place', bstick='$bstick', main='$main', category='$category', grouplevel='$grouplevel', start='$start_date', end='$end_date', fpage='$fpage', innews='$innews', devicelevel='$devicelevel', allow_views='$allow_views', max_views='$max_views', allow_counts='$allow_counts', max_counts='$max_counts', rubric='$rub_id' WHERE id='$id'" );]]></searchcode>
+			<replacecode><![CDATA[	$last_id = $id;
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/banners/prePost.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$db->query( "INSERT INTO " . PREFIX . "_banners_rubrics (parentid, title, description) values ('{$parent}', '{$title}', '{$description}')" );]]></searchcode>
+			<replacecode><![CDATA[	// MaHarder Assets
+$last_id = $db->insert_id();
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/banners/rubrics.prePost.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$db->query( "UPDATE " . PREFIX . "_banners_rubrics SET title='{$title}', description='{$description}' WHERE id='{$editrubricid}'" );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+$last_id = $editrubricid;
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/banners/rubrics.prePost.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$banner_descr = htmlspecialchars( $row['descr'], ENT_QUOTES, $config['charset'] );]]></searchcode>
+			<replacecode><![CDATA[		require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/banners/bannersView.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[		<div class="form-group">
+		  <label class="control-label col-md-2 col-sm-3">{$lang['banners_xdescr']}</label>
+		  <div class="col-md-10 col-sm-9">
+			<input class="form-control width-350" type="text" name="banner_descr" maxlength="200" value="{$banner_descr}" />
+		  </div>
+		 </div>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+	// MaHarder Assets
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/banners/bannersDescr.php'));
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$r_list .= "
+			<tr>
+			 <td class=\"{$border}cursor-pointer\" onclick=\"document.location = '?mod=banners&rubric={$value['id']}'; return false;\"><h6 id=\"title_{$value['id']}\" class=\"media-heading text-semibold\">{$value['title']}</h6><div class=\"text-muted text-size-small\">{$value['description']}</div><textarea id=\"descr_{$value['id']}\" style=\"display:none;\">{$value['description']}</textarea></td>
+			 <td class=\"{$border}text-center\" style=\"width: 70px\">{$menu_link}</td>
+		   </tr>";]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+$r_list .= "
+			<tr>
+			 <td class=\"{$border}cursor-pointer\" onclick=\"document.location = '?mod=banners&rubric={$value['id']}'; return false;\"><h6 id=\"title_{$value['id']}\" class=\"media-heading text-semibold\">{$value['title']}</h6><div class=\"text-muted text-size-small\">{$value['description']}</div><textarea id=\"descr_{$value['id']}\" style=\"display:none;\">{$value['description']}</textarea>";
+	
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/banners/rubrics.table.php'));
+
+			 $r_list .= "</td>
+			 <td class=\"{$border}text-center\" style=\"width: 70px\">{$menu_link}</td>
+		   </tr>";]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[b[dle_act_lang[2]] = function() { 
+	 				if ( $("#dle-promt-title").val().length < 1) {
+	 					 $("#dle-promt-title").addClass('ui-state-error');
+	 				} else {
+	 					$("#addrubric").submit();
+	 				}			
+	 			};
+   
+	 $("#dlepopup").remove();
+
+	$("body").append("<div id='dlepopup' title='{$lang['add_rubric_1']}' style='display:none'><form id='addrubric' method='post'>{$lang['rubric_title']}<input type='hidden' name='mod' value='banners'><input type='hidden' name='action' value='addrubric'><input type='hidden' name='user_hash' value='{$dle_login_hash}'><input type='hidden' name='rubric' value='{$rubric}'><br /><input type='text' name='title' id='dle-promt-title' class='classic' style='width:100%;' value=''><br /><br />{$lang['rubric_description']}<br /><textarea name='description' id='dle-promt-descr' class='classic' style='width:100%;' rows='3'></textarea></form></div>");
+]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+// MaHarder Assets
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/banners/rubrics.addRubric.php'));
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[			b[dle_act_lang[2]] = function() { 
+						if ( $("#dle-promt-title").val().length < 1) {
+							 $("#dle-promt-title").addClass('ui-state-error');
+						} else {
+							$("#editrubric").submit();
+						}					
+					};
+	
+			$("#dlepopup").remove();
+
+		$("body").append("<div id='dlepopup' title='{$lang['add_rubric_2']}' style='display:none'><form id='editrubric' method='post'>{$lang['rubric_title']}<input type='hidden' name='mod' value='banners'><input type='hidden' name='action' value='editrubric'><input type='hidden' name='user_hash' value='{$dle_login_hash}'><input type='hidden' name='editrubricid' value='"+rid+"'><br /><input type='text' name='title' id='dle-promt-title' class='classic' style='width:100%;' value='"+title+"'><br /><br />{$lang['rubric_description']}<br /><textarea name='description' id='dle-promt-descr' class='classic' style='width:100%;' rows='3'>"+description+"</textarea></form></div>");]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+// MaHarder Assets
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/banners/rubrics.editRubric.php'));
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+	</file>
+	<file name="engine/inc/categories.php">
+		<operation action="before">
+			<searchcode><![CDATA[$db->query( "INSERT INTO " . USERPREFIX . "_admin_logs (name, date, ip, action, extras) values ('".$db->safesql($member_id['name'])."', '{$_TIME}', '{$_IP}', '12', '{$cat_name}')" );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/categories/prePost.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$row['fulldescr'] = $parse->decodeBBCodes( $row['fulldescr'], false );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/categories/preEdit.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[  <div class="panel-heading">
+    {$lang['cat_edit']}
+  </div>]]></searchcode>
+			<replacecode><![CDATA[  <div class="panel-heading">
+    <ul class="nav nav-tabs nav-tabs-solid">
+		<li class="active"><a href="#native" data-toggle="tab"><i class="fa fa-home position-left"></i> {$lang['cat_edit']}</a></li>
+HTML;
+// MaHarder Assets
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/addnews/tabs.php'));
+
+	echo <<<HTML
+	</ul>
+    <div class="heading-elements">
+		<ul class="icons-list">
+			<li><a href="#" class="panel-fullscreen"><i class="fa fa-expand"></i></a></li>
+		</ul>
+    </div>
+  </div>
+  <div class="panel-tab-content tab-content">
+  <div class="tab-pane active" id="native">]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="before">
+			<searchcode><![CDATA[   </div>
+	<div class="panel-footer">
+		<button type="submit" class="btn bg-teal btn-sm btn-raised position-left"><i class="fa fa-floppy-o position-left"></i>{$lang['user_save']}</button>
+	</div>]]></searchcode>
+			<replacecode><![CDATA[   </div>
+   </div>
+HTML;
+// MaHarder Assets
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/categories/tabContent.php'));
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="before">
+			<searchcode><![CDATA[$db->query( "INSERT INTO " . USERPREFIX . "_admin_logs (name, date, ip, action, extras) values ('".$db->safesql($member_id['name'])."', '{$_TIME}', '{$_IP}', '14', '{$cat_name}')" );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/categories/postEdit.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-12">
+					<label>{$lang['meta_keys']}</label>
+					<textarea name="keywords" class="classic" style="width:100%;" rows="3"></textarea>
+				</div>
+			</div>
+		</div>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/categories/addCat.php'));
+
+echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+	</file>
+	<file name="engine/inc/editnews.php">
+		<operation action="replace">
+			<searchcode><![CDATA[		if(!$_REQUEST['search_area']) {
+			$where[] = "(title like '%{$search_field}%' OR short_story like '%{$search_field}%' OR full_story like '%{$search_field}%' OR xfields like '%{$search_field}%')";
+		} elseif($_REQUEST['search_area'] == 1) {
+			$where[] = "title like '%{$search_field}%'";
+		} elseif($_REQUEST['search_area'] == 2) {
+			$where[] = "short_story like '%{$search_field}%'";
+		} elseif($_REQUEST['search_area'] == 3) {
+			$where[] = "full_story like '%{$search_field}%'";
+		} elseif($_REQUEST['search_area'] == 4) {
+			$where[] = "xfields like '%{$search_field}%'";
+		} elseif($_REQUEST['search_area'] == 5) {
+			$where[] = "tags like '%{$search_field}%'";
+		}]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/editnews/search_area.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[	if( $_REQUEST['search_order_v'] == "asc" or $_REQUEST['search_order_v'] == "desc" ) $search_order_v = $_REQUEST['search_order_v'];
+	else $search_order_v = "";]]></searchcode>
+			<replacecode><![CDATA[	// MaHarder
+	if( $_REQUEST['search_lang']  ) $search_lang = $_REQUEST['search_lang'];
+	else $search_lang = "";]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="before">
+			<searchcode><![CDATA[	$search_area = array();]]></searchcode>
+			<replacecode><![CDATA[	// MaHarder
+	$search_order_lang = array ('----' => '');
+	foreach ($i18n_lang['active'] as $code => $lang_ar) {
+		if ($i18n->getLocale() == $code) continue;
+		$search_order_lang[$lang_ar['iso2']] = '';
+	}
+	if( ! empty( $search_lang ) ) {
+		$search_order_lang[$search_lang] = 'selected';
+	} else {
+		$search_order_lang['----'] = 'selected';
+	}]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[	if( isset( $_REQUEST['search_area'] ) ) {
+		$_REQUEST['search_area'] = intval($_REQUEST['search_area']);
+		$search_area[$_REQUEST['search_area']] = 'selected';
+	} else {
+		$search_area[0] = 'selected';
+	}]]></searchcode>
+			<replacecode><![CDATA[	// MaHarder
+	$selectFields = [];
+	foreach ($i18n_lang['active'] as $code => $lang_ar) {
+		if ($i18n->getLocale() == $code) continue;
+		$selectFields[] = "p.title_{$lang_ar['iso2']}";
+	}
+	$selectFields = implode(', ', $selectFields);]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$db->query( "SELECT p.id, p.date, p.title, p.category, p.autor, p.alt_name, p.comm_num, p.approve, p.fixed, e.news_read, e.votes, e.user_id, e.need_pass FROM " . PREFIX . "_post p LEFT JOIN " . PREFIX . "_post_extras e ON (p.id=e.news_id) " . $where . " ORDER BY " . $order_by . " LIMIT {$start_from},{$news_per_page}" );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+
+$db->query( "SELECT p.id, p.date, p.title, {$selectFields}, p.category, p.autor, p.alt_name, p.comm_num, p.approve, p.fixed, e.news_read, e.votes, e.user_id, e.need_pass FROM " . PREFIX . "_post p LEFT JOIN " . PREFIX . "_post_extras e ON (p.id=e.news_id) " . $where . " ORDER BY " . $order_by . " LIMIT {$start_from},{$news_per_page}" );]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="before">
+			<searchcode><![CDATA[$entries .= "</td><td class=\"hidden-xs cursor-pointer text-center\" onclick=\"document.location = '?mod=editnews&action=editnews&id={$row['id']}'; return false;\">{$my_cat}</td>";]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+include (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/editnews/table.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[                    <input name="search_field" value="{$search_field}" type="text" class="form-control">
+					<span class="input-group-btn">
+						<select name="search_area" class="uniform form-control"><option value="0" {$search_area[0]}>{$lang['filter_search_0']}</option><option value="1" {$search_area[1]}>{$lang['filter_search_3']}</option><option value="2" {$search_area[2]}>{$lang['filter_search_4']}</option><option value="3" {$search_area[3]}>{$lang['filter_search_5']}</option><option value="4" {$search_area[4]}>{$lang['filter_search_6']}</option><option value="5" {$search_area[5]}>{$lang['filter_search_10']}</option></select>
+					</span>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+// MaHarder Assets
+
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/editnews/filter.php'));
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="before">
+			<searchcode><![CDATA[        <th class="hidden-xs text-center">{$lang['edit_cl']}</th>
+        <th class="hidden-xs hidden-sm" style="max-width: 140px">{$lang['edit_autor']}</th>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+// MaHarder Assets
+
+		require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/editnews/tableHeader.php'));
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="before">
+			<searchcode><![CDATA[$access = permload( $row['access'] );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/editnews/preEdit.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$poll['multiple'] = $poll['multiple'] ? "checked" : "";]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/editnews/poll.preEdit.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[<li id="tab-perimit"><a href="#tabperm" data-toggle="tab"><i class="fa fa-lock position-left"></i> {$lang['tabs_perm']}</a></li>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+// MaHarder Assets
+
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/addnews/tabs.php'));
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[							<div class="form-group">
+							  <label class="control-label col-md-2 col-sm-3">{$lang['vote_body']}<div class="text-muted text-size-small">{$lang['vote_str_1']}</div></label>
+							  <div class="col-md-10 col-sm-9">
+								<textarea rows="7" class="classic width-400" name="vote_body">{$poll['body']}</textarea>
+							  </div>
+							 </div>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/addnews/poll.table.php'));
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="before">
+			<searchcode><![CDATA[</div>
+				<div class="panel-footer">
+					<button type="submit" class="btn bg-teal btn-sm btn-raised position-left"><i class="fa fa-floppy-o position-left"></i>{$lang['news_save']}</button>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+// MaHarder Assets
+
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/addnews/tabContent.php'));
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="before">
+			<searchcode><![CDATA[$db->query( "UPDATE " . PREFIX . "_post SET title='{$title}', date='{$thistime}', short_story='{$short_story}', full_story='{$full_story}', xfields='{$filecontents}', descr='{$metatags['description']}', keywords='{$metatags['keywords']}', category='{$category_list}', alt_name='{$alt_name}', allow_comm='{$allow_comm}', approve='{$approve}', allow_main='{$allow_main}', fixed='{$news_fixed}', allow_br='{$allow_br}', symbol='{$catalog_url}', tags='{$_POST['tags']}', metatitle='{$metatags['title']}' WHERE id='{$item_db[0]}'" );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/editnews/post.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$count = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_poll WHERE news_id = '$item_db[0]'" );
+
+					if( $count['count'] ) $db->query( "UPDATE  " . PREFIX . "_poll set title='$vote_title', frage='$frage', body='$vote_body', multiple='$allow_m_vote' WHERE news_id = '$item_db[0]'" );
+					else $db->query( "INSERT INTO " . PREFIX . "_poll (news_id, title, frage, body, votes, multiple, answer) VALUES('$item_db[0]', '$vote_title', '$frage', '$vote_body', 0, '$allow_m_vote', '')" );
+]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/addnews/poll.prePost.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+	</file>
+	<file name="engine/inc/editvote.php">
+		<operation action="after">
+			<searchcode><![CDATA[$db->query( "INSERT INTO " . PREFIX . "_vote (category, vote_num, date, title, body, approve, start, end, grouplevel) VALUES ('$category', 0, CURRENT_DATE(), '$title', '$body', '1', '$start_date', '$end_date', '$grouplevel')" );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/poll/prePost.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$db->query( "UPDATE " . PREFIX . "_vote SET category='$category', title='$title', body='$body', start='$start_date', end='$end_date', grouplevel='$grouplevel' WHERE id=$id" );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/poll/prePost.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$row = $db->super_query( "SELECT id, title, category, body, vote_num FROM " . PREFIX . "_vote WHERE id='$id'" );]]></searchcode>
+			<replacecode><![CDATA[	// MaHarder
+	$selectTitle = '';
+	$selectBody = '';
+	foreach ($i18n_lang['active'] as $code => $lang_ar) {
+		$iso = $lang_ar['iso2'];
+		if ($i18n->getLocale() == $code) {
+			$selectBody = "body_{$iso} as body";
+			$selectTitle = "title_{$iso} as title";
+		}
+	}
+
+	$row = $db->super_query( "SELECT id, {$selectTitle}, category, {$selectBody}, vote_num FROM " . PREFIX . "_vote WHERE id='$id'" );
+	// END]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="before">
+			<searchcode><![CDATA[		<div class="form-group">
+		  <label class="control-label col-md-2 col-sm-3">{$lang['addnews_cat']}</label>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+
+	// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/poll/title.php'));
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[<div class="form-group">
+		  <label class="control-label col-md-2 col-sm-3">{$lang['vote_body']}<br /><span class="note large">{$lang['vote_str_1']}</span></label>
+		  <div class="col-md-10 col-sm-9">
+			<textarea class="classic width-500" style="height:200px;" name="body" id="body">{$body}</textarea>
+		  </div>
+		 </div>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+// MaHarder Assets
+
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/poll/body.php'));
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+	</file>
+	<file name="engine/inc/email.php">
+		<operation action="replace">
+			<searchcode><![CDATA[	$db->query( "UPDATE " . PREFIX . "_email SET template='$reg_mail_text', use_html='$reg_mail_html' WHERE name='reg_mail'" );
+	$db->query( "UPDATE " . PREFIX . "_email SET template='$feed_mail_text', use_html='$feed_mail_html' WHERE name='feed_mail'" );
+	$db->query( "UPDATE " . PREFIX . "_email SET template='$lost_mail_text', use_html='$lost_mail_html' WHERE name='lost_mail'" );
+	$db->query( "UPDATE " . PREFIX . "_email SET template='$new_news_text', use_html='$new_news_html' WHERE name='new_news'" );
+	$db->query( "UPDATE " . PREFIX . "_email SET template='$new_comments_text', use_html='$new_comments_html' WHERE name='comments'" );
+	$db->query( "UPDATE " . PREFIX . "_email SET template='$new_pm_text', use_html='$new_pm_html' WHERE name='pm'" );
+	$db->query( "UPDATE " . PREFIX . "_email SET template='$new_newsletter_text', use_html='1' WHERE name='newsletter'" );
+	$db->query( "UPDATE " . PREFIX . "_email SET template='$wait_mail_text', use_html='$wait_mail_html' WHERE name='wait_mail'" );
+	$db->query( "UPDATE " . PREFIX . "_email SET template='$twofactor_text', use_html='$twofactor_html' WHERE name='twofactor'" );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/email/prePost.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$db->query( "INSERT INTO " . USERPREFIX . "_admin_logs (name, date, ip, action, extras) values ('".$db->safesql($member_id['name'])."', '{$_TIME}', '{$_IP}', '31', '')" );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+//$db->query( "INSERT INTO " . USERPREFIX . "_admin_logs (name, date, ip, action, extras) values ('".$db->safesql($member_id['name'])."', '{$_TIME}', '{$_IP}', '31', '')" );]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$db->free();]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/email/list.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[<textarea class="classic" rows="15" style="width:100%;" name="reg_mail_text">{$mail_template['reg_mail']}</textarea>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+// MaHarder Assets
+
+	createTabs('reg_mail');
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[<textarea class="classic" rows="15" style="width:100%;" name="feed_mail_text">{$mail_template['feed_mail']}</textarea>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+
+// MaHarder Assets
+	createTabs('feed_mail');
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[<textarea class="classic" rows="15" style="width:100%;" name="lost_mail_text">{$mail_template['lost_mail']}</textarea>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+
+// MaHarder Assets
+	createTabs('lost_mail');
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[<textarea class="classic" rows="15" style="width:100%;" name="new_news_text">{$mail_template['new_news']}</textarea>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+
+// MaHarder Assets
+	createTabs('new_news');
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[<textarea class="classic" rows="15" style="width:100%;" name="new_comments_text">{$mail_template['comments']}</textarea>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+
+// MaHarder Assets
+	createTabs('comments');
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[<textarea class="classic" rows="15" style="width:100%;" name="new_pm_text">{$mail_template['pm']}</textarea>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+
+// MaHarder Assets
+	createTabs('pm');
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[<textarea class="classic" rows="15" style="width:100%;" name="wait_mail_text">{$mail_template['wait_mail']}</textarea>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+
+// MaHarder Assets
+	createTabs('wait_mail');
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[<textarea class="classic" rows="15" style="width:100%;" name="twofactor_text">{$mail_template['twofactor']}</textarea>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+
+// MaHarder Assets
+	createTabs('twofactor');
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[<textarea class="classic" rows="15" style="width:100%;" name="new_newsletter_text">{$mail_template['newsletter']}</textarea>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+
+// MaHarder Assets
+	createTabs('newsletter');
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+	</file>
+	<file name="engine/inc/question.php">
+		<operation action="after">
+			<searchcode><![CDATA[$db->query( "INSERT INTO " . PREFIX . "_question (question, answer) VALUES ('{$question}', '{$answer}')" );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/question/prePost.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$db->query( "UPDATE " . PREFIX . "_question SET question='{$question}', answer='{$answer}' WHERE id='{$id}'" );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/question/prePost.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$row['answer'] = htmlspecialchars( stripslashes($row['answer']), ENT_QUOTES, $config['charset'] );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/question/tableReplace.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[style=\"display:none\">{$row['answer']}</div>]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+{$tableReplaces}]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$('body').append("<div id='dlepopup' title='{$lang['opt_question_2']}' style='display:none'><form action=\"?mod=question\" method=\"POST\" name=\"saveform\" id=\"saveform\">{$lang['opt_question_3']}<br><input type='text' name='question' id='question' class='classic' style='width:100%' value=''/><br><br>{$lang['opt_question_4']}<br /><textarea name='answer' id='answer' class='classic' style='width:100%;height:100px;'></textarea><input type=\"hidden\" name=\"mod\" value=\"question\"><input type=\"hidden\" name=\"user_hash\" value=\"{$dle_login_hash}\"><input type=\"hidden\" name=\"action\" value=\"addquestion\"></form></div>");]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+
+// MaHarder Assets
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/question/addQuestion.php'));
+
+echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$('body').append("<div id='dlepopup' title='{$lang['opt_question_2']}' style='display:none'><form action=\"?mod=question\" method=\"POST\" name=\"saveform\" id=\"saveform\">{$lang['opt_question_3']}<br><input type='text' name='question' id='question' class='classic' style='width:100%' value=\""+qa+"\"/><br><br>{$lang['opt_question_4']}<br /><textarea name='answer' id='answer' class='classic' style='width:100%;height:100px;'>"+ans+"</textarea><input type=\"hidden\" name=\"mod\" value=\"question\"><input type=\"hidden\" name=\"user_hash\" value=\"{$dle_login_hash}\"><input type=\"hidden\" name=\"action\" value=\"editquestion\"><input type=\"hidden\" name=\"id\" value=\""+id+"\"></form></div>");]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+
+// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/question/editQuestion.php'));
+
+echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+	</file>
+	<file name="engine/inc/usergroup.php">
+		<operation action="before">
+			<searchcode><![CDATA[$db->query( "INSERT INTO " . USERPREFIX . "_admin_logs (name, date, ip, action, extras) values ('".$db->safesql($member_id['name'])."', '{$_TIME}', '{$_IP}', '76', '{$group_name}')" );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+		require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/usergroups/prePost.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="before">
+			<searchcode><![CDATA[$db->query( "INSERT INTO " . USERPREFIX . "_admin_logs (name, date, ip, action, extras) values ('".$db->safesql($member_id['name'])."', '{$_TIME}', '{$_IP}', '77', '{$group_name}')" );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+		require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/usergroups/prePost.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[<tr>
+        <td style="width:58%"><h6 class="media-heading text-semibold">{$lang['group_name']}</h6><span class="text-muted text-size-small hidden-xs">{$lang['hint_gtitle']}</span></td>
+        <td style="width:42%"><input type="text" class="form-control" name="group_name" value="{$group_name_value}"></td>
+    </tr>]]></searchcode>
+			<replacecode><![CDATA[
+HTML;
+
+// MaHarder Assets
+	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/usergroups/table.php'));
+
+	echo <<<HTML]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+	</file>
+	<file name="engine/modules/addnews.php">
+		<operation action="before">
+			<searchcode><![CDATA[$answer = $db->super_query("SELECT id, answer FROM " . PREFIX . "_question WHERE id='".intval($_SESSION['question'])."'");]]></searchcode>
+			<replacecode><![CDATA[				// MaHarder
+				$answerClause = "answer, answer_{$i18n_lang['active'][$i18n->getLocale()]['iso2']}, answer_{$i18n_lang['active'][$languages_config['fallback_language']]['iso2']}";]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$answer = $db->super_query("SELECT id, answer FROM " . PREFIX . "_question WHERE id='".intval($_SESSION['question'])."'");]]></searchcode>
+			<replacecode><![CDATA[// MaHarder
+				if (!empty($answer['answer_' . $i18n_lang['active'][$i18n->getLocale()]['iso2']])) {
+					$answer['answer'] = $answer['answer_' . $i18n_lang['active'][$i18n->getLocale()]['iso2']];
+				} elseif (!empty($question['answer_' . $i18n_lang['active'][$languages_config['fallback_language']]['iso2']])) {
+					$answer['answer'] = $answer['answer_' . $i18n_lang['active'][$languages_config['fallback_language']]['iso2']];
+				}]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$db->query( "UPDATE " . PREFIX . "_post set title='$title', short_story='$short_story', full_story='$full_story', xfields='$filecontents', category='$category_list', alt_name='$alt_name', allow_comm='$allow_comm', approve='$approve', allow_main='$allow_main', fixed='$news_fixed', allow_br='$allow_br', tags='" . $_POST['tags'] . "' WHERE id='{$id}'" );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+				require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/modules/addnews/updateNews.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$db->query( "INSERT INTO " . PREFIX . "_tags (news_id, tag) VALUES " . $tags );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+						require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/addnews/tags.php'));]]></replacecode>
+			<searchcount>2</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[					$count = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_poll WHERE news_id = '{$id}'" );
+					
+					if( $count['count'] ) $db->query( "UPDATE  " . PREFIX . "_poll set title='$vote_title', frage='$frage', body='$vote_body', multiple='$allow_m_vote' WHERE news_id = '{$row['id']}'" );
+					else $db->query( "INSERT INTO " . PREFIX . "_poll (news_id, title, frage, body, votes, multiple, answer) VALUES('{$i]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/addnews/poll.prePost.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$row['id'] = $db->insert_id();]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+				$id = $row['id'];
+				require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/modules/addnews/updateNews.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$db->query( "INSERT INTO " . PREFIX . "_poll (news_id, title, frage, body, votes, multiple, answer) VALUES('{$row['id']}', '{$vote_title}', '{$frage}', '{$vote_body}', 0, '{$allow_m_vote}', '')" );]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/inc/addnews/poll.prePost.php'));]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$answer = $db->super_query("SELECT id, answer FROM " . PREFIX . "_question WHERE id='".intval($_SESSION['question'])."'");]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+$answer = $db->super_query("SELECT id, {$answerClause} FROM " . PREFIX . "_question WHERE id='".intval($_SESSION['question'])."'");]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="before">
+			<searchcode><![CDATA[$question = $db->super_query("SELECT id, question FROM " . PREFIX . "_question ORDER BY RAND() LIMIT 1");]]></searchcode>
+			<replacecode><![CDATA[			// MaHarder
+			$questionClause = "question, question_{$i18n_lang['active'][$i18n->getLocale()]['iso2']}, question_{$i18n_lang['active'][$languages_config['fallback_language']]['iso2']}";
+]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$question = $db->super_query("SELECT id, question FROM " . PREFIX . "_question ORDER BY RAND() LIMIT 1");]]></searchcode>
+			<replacecode><![CDATA[			// MaHarder
+			if (!empty($question['question_' . $i18n_lang['active'][$i18n->getLocale()]['iso2']])) {
+				$question['question'] = $question['question_' . $i18n_lang['active'][$i18n->getLocale()]['iso2']];
+			} elseif (!empty($question['question_' . $i18n_lang['active'][$languages_config['fallback_language']]['iso2']])) {
+				$question['question'] = $question['question_' . $i18n_lang['active'][$languages_config['fallback_language']]['iso2']];
+			}]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$question = $db->super_query("SELECT id, question FROM " . PREFIX . "_question ORDER BY RAND() LIMIT 1");]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+$question = $db->super_query("SELECT id, {$questionClause} FROM " . PREFIX . "_question ORDER BY RAND() LIMIT 1");]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+		<operation action="before">
+			<searchcode><![CDATA[if( $config['allow_site_wysiwyg'] == "2" ) $save = "tinyMCE.triggerSave();"; else $save = "";]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/include/modules/addnews/addNews.php'));]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+	</file>
+	<file name="engine/modules/functions.php">
+		<operation action="before">
+			<searchcode><![CDATA[$returnstring .= '>' . $sublevelmarker . $cat_info[$id]['name'] . '</option>';]]></searchcode>
+			<replacecode><![CDATA[					// MaHarder
+					if (!empty($cat_info[$id]['name_' . $i18n_lang['active'][$i18n->getLocale()]['iso2']])) {
+						$cat_info[$id]['name'] = $cat_info[$id]['name_' . $i18n_lang['active'][$i18n->getLocale()]['iso2']];
+					} elseif (!empty($cat_info[$id]['name_' . $i18n_lang['active'][$languages_config['fallback_language']]['iso2']])) {
+						$cat_info[$id]['name'] = $cat_info[$id]['name_' . $i18n_lang['active'][$languages_config['fallback_language']]['iso2']];
+					}]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
+	</file>
+	<file name="engine/init.php">
+		<operation action="after">
+			<searchcode><![CDATA[require_once (DLEPlugins::Check(ENGINE_DIR . '/modules/functions.php'));]]></searchcode>
+			<replacecode><![CDATA[// MaHarder Assets
+require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/languages.php'));]]></replacecode>
 			<searchcount>1</searchcount>
 		</operation>
 	</file>
