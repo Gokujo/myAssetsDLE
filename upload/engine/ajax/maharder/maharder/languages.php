@@ -123,21 +123,10 @@ switch ($action) {
 				deleteTable('usergroups', 'group_name', $iso2),
 				deleteTable('xfsearch', 'tagvalue', $iso2),
 			];
-
-			$dbChanges[] = deleteTable('jas_products_manufacturers', 'description', $iso2);
-			$dbChanges[] = deleteTable('jas_products_manufacturers', 'metadescription', $iso2);
-			$dbChanges[] = deleteTable('jas_products_manufacturers', 'metatitle', $iso2);
-			$dbChanges[] = deleteTable('jas_products_manufacturers', 'name', $iso2);
-
-			$dbChanges[] = deleteTable('jas_products_types', 'description', $iso2);
-			$dbChanges[] = deleteTable('jas_products_types', 'metadescription', $iso2);
-			$dbChanges[] = deleteTable('jas_products_types', 'metatitle', $iso2);
-			$dbChanges[] = deleteTable('jas_products_types', 'name', $iso2);
-
-			$dbChanges[] = deleteTable('jas_products_items', 'description', $iso2);
-			$dbChanges[] = deleteTable('jas_products_items', 'metadescription', $iso2);
-			$dbChanges[] = deleteTable('jas_products_items', 'metatitle', $iso2);
-			$dbChanges[] = deleteTable('jas_products_items', 'name', $iso2);
+			
+			//
+			// deleteTables includes
+			//
 
 			foreach ($dbChanges as $change) {
 				$db->query($change);
@@ -196,21 +185,10 @@ switch ($action) {
 				alterTable('usergroups', 'group_name', $iso2, "varchar(50) default '' null;"),
 				alterTable('xfsearch', 'tagvalue', $iso2, "varchar(100) default '' null;"),
 			];
-
-			$dbChanges[] = alterTable('jas_products_manufacturers', 'description', $iso2, "text null;");
-			$dbChanges[] = alterTable('jas_products_manufacturers', 'metadescription', $iso2, "varchar(145) default '' null;");
-			$dbChanges[] = alterTable('jas_products_manufacturers', 'metatitle', $iso2, "varchar(65) default '' null;");
-			$dbChanges[] = alterTable('jas_products_manufacturers', 'name', $iso2, "varchar(255) default '' null;");
-
-			$dbChanges[] = alterTable('jas_products_types', 'description', $iso2, "text null;");
-			$dbChanges[] = alterTable('jas_products_types', 'metadescription', $iso2, "varchar(145) default '' null;");
-			$dbChanges[] = alterTable('jas_products_types', 'metatitle', $iso2, "varchar(65) default '' null;");
-			$dbChanges[] = alterTable('jas_products_types', 'name', $iso2, "varchar(255) default '' null;");
-
-			$dbChanges[] = alterTable('jas_products_items', 'description', $iso2, "text null;");
-			$dbChanges[] = alterTable('jas_products_items', 'metadescription', $iso2, "varchar(145) default '' null;");
-			$dbChanges[] = alterTable('jas_products_items', 'metatitle', $iso2, "varchar(65) default '' null;");
-			$dbChanges[] = alterTable('jas_products_items', 'name', $iso2, "varchar(255) default '' null;");
+			
+			//
+			// alterTables includes
+			//
 
 			foreach ($dbChanges as $change) {
 				$db->query($change);
@@ -293,21 +271,10 @@ switch ($action) {
 			redoTable($checkedOnly, 'usergroups', 'group_name', $iso2, "varchar(50) default '' null;"),
 			redoTable($checkedOnly, 'xfsearch', 'tagvalue', $iso2, "varchar(100) default '' null;"),
 		];
-
-		$dbChanges[] = redoTable($checkedOnly,'jas_products_manufacturers', 'description', $iso2, "text null;");
-		$dbChanges[] = redoTable($checkedOnly,'jas_products_manufacturers', 'metadescription', $iso2, "varchar(145) default '' null;");
-		$dbChanges[] = redoTable($checkedOnly,'jas_products_manufacturers', 'metatitle', $iso2, "varchar(65) default '' null;");
-		$dbChanges[] = redoTable($checkedOnly,'jas_products_manufacturers', 'name', $iso2, "varchar(255) default '' null;");
-
-		$dbChanges[] = redoTable($checkedOnly,'jas_products_types', 'description', $iso2, "text null;");
-		$dbChanges[] = redoTable($checkedOnly,'jas_products_types', 'metadescription', $iso2, "varchar(145) default '' null;");
-		$dbChanges[] = redoTable($checkedOnly,'jas_products_types', 'metatitle', $iso2, "varchar(65) default '' null;");
-		$dbChanges[] = redoTable($checkedOnly,'jas_products_types', 'name', $iso2, "varchar(255) default '' null;");
-
-		$dbChanges[] = redoTable($checkedOnly,'jas_products_items', 'description', $iso2, "text null;");
-		$dbChanges[] = redoTable($checkedOnly,'jas_products_items', 'metadescription', $iso2, "varchar(145) default '' null;");
-		$dbChanges[] = redoTable($checkedOnly,'jas_products_items', 'metatitle', $iso2, "varchar(65) default '' null;");
-		$dbChanges[] = redoTable($checkedOnly,'jas_products_items', 'name', $iso2, "varchar(255) default '' null;");
+		
+		//
+		// redoTables includes
+		//
 
 		foreach ($dbChanges as $change) {
 			if(is_array($change)) {

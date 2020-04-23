@@ -252,7 +252,7 @@ HTML;
 			$act = addCheckbox($id, $variable[$id] == 1);
 		}
 
-		$out = "<div class=\"two column row\"><div class=\"column\"><label for=\"{$id}\">{$name}</label><br><small>{$descr}</small></div><div class=\"column\">";
+		$out = "<div class=\"two column row\"><div class=\"four wide column\"><label for=\"{$id}\">{$name}</label><br><small>{$descr}</small></div><div class=\"twelve wide column\">";
 		$out .= $act;
 		$out .= '</div></div>';
 		return $out;
