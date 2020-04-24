@@ -22,12 +22,10 @@ if( !defined( 'DATALIFEENGINE' ) ) {
 foreach ($i18n_lang['active'] as $code => $lang_ar) {
 	if ($i18n->getLocale() == $code) continue;
 
-	$r_list .= setTranslator($lang_ar['iso2'], 'title');
 	$r_list .= <<<HTML
 	<input type="hidden" id="title_{$value['id']}_{$lang_ar['iso2']}" value="{$value['title_' . $lang_ar['iso2']]}">
 HTML;
 
-	$r_list .= setTranslator($lang_ar['iso2'], 'descr');
 	$r_list .= <<<HTML
 	<textarea id="descr_{$value['id']}_{$lang_ar['iso2']}" style="display:none;">{$value['description_' . $lang_ar['iso2']]}</textarea>
 HTML;

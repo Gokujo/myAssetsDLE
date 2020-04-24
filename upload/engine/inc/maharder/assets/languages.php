@@ -19,6 +19,7 @@ if (!defined('MH_DIR')) {
 	define('MH_DIR', realpath(__DIR__));
 }
 
+$i18n = '';
 $langConfig = '';
 $startApp = false;
 if(file_exists(ROOT_DIR.'/engine/inc/maharder/config/maharder.json')) {
@@ -153,26 +154,5 @@ if (!function_exists('translate')) {
 		global $i18n;
 		if (empty($i18n)) return $message;
 		return $i18n->translate($message);
-	}
-}
-
-$translator = new translator($langConfig['translateEngine'], $langConfig['transAPI'], $i18n_lang['active'][$i18n->getLocale()]['iso2']);
-
-if (!function_exists('setTranslator')) {
-	/**
-	 * @param $lang
-	 * @param $input
-	 *
-	 * @return string
-	 */
-	function setTranslator($lang, $input) {
-		global $langConfig, $dle_login_hash;
-
-		if ($langConfig['translator']) {
-			return "<br>
-					<i class=\"far fa-language\"></i> <a data-action=\"translate\" data-lang=\"{$lang}\" data-input=\"{$input}\" data-hash=\"{$dle_login_hash}\"> " .translate('Перевести') . "</a>";
-		}
-
-		return '';
 	}
 }

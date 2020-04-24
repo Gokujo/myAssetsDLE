@@ -1,17 +1,17 @@
 <?php
-	////////////////////////////////////////////////////////////
-	// =======================================================
-	// Модуль: MaHarder Assets
-	// Файл: functions.php
-	// Путь: /engine/inc/maharder/assets/functions.php
-	// =======================================================
-	// Автор: Maxim Harder (c) 2019
-	// Сайт: https://maxim-harder.de / https://devcraft.club
-	// Телеграм: http://t.me/MaHarder
-	// =======================================================
-	// Ничего не менять
-	// =======================================================
-	////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// =======================================================
+// Модуль: MaHarder Assets
+// Файл: functions.php
+// Путь: /engine/inc/maharder/assets/functions.php
+// =======================================================
+// Автор: Maxim Harder (c) 2019
+// Сайт: https://maxim-harder.de / https://devcraft.club
+// Телеграм: http://t.me/MaHarder
+// =======================================================
+// Ничего не менять
+// =======================================================
+////////////////////////////////////////////////////////////
 
 	if( !defined( 'DATALIFEENGINE' ) ) {
 		die(translate('Oh! You little bastard!'));
@@ -252,7 +252,7 @@ HTML;
 			$act = addCheckbox($id, $variable[$id] == 1);
 		}
 
-		$out = "<div class=\"two column row\"><div class=\"column\"><label for=\"{$id}\">{$name}</label><br><small>{$descr}</small></div><div class=\"column\">";
+		$out = "<div class=\"two column row\"><div class=\"four wide column\"><label for=\"{$id}\">{$name}</label><br><small>{$descr}</small></div><div class=\"twelve wide column\">";
 		$out .= $act;
 		$out .= '</div></div>';
 		return $out;

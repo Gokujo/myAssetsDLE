@@ -123,6 +123,10 @@ switch ($action) {
 				deleteTable('usergroups', 'group_name', $iso2),
 				deleteTable('xfsearch', 'tagvalue', $iso2),
 			];
+			
+			//
+			// deleteTables includes
+			//
 
 			foreach ($dbChanges as $change) {
 				$db->query($change);
@@ -181,6 +185,10 @@ switch ($action) {
 				alterTable('usergroups', 'group_name', $iso2, "varchar(50) default '' null;"),
 				alterTable('xfsearch', 'tagvalue', $iso2, "varchar(100) default '' null;"),
 			];
+			
+			//
+			// alterTables includes
+			//
 
 			foreach ($dbChanges as $change) {
 				$db->query($change);
@@ -263,6 +271,10 @@ switch ($action) {
 			redoTable($checkedOnly, 'usergroups', 'group_name', $iso2, "varchar(50) default '' null;"),
 			redoTable($checkedOnly, 'xfsearch', 'tagvalue', $iso2, "varchar(100) default '' null;"),
 		];
+		
+		//
+		// redoTables includes
+		//
 
 		foreach ($dbChanges as $change) {
 			if(is_array($change)) {
@@ -294,17 +306,5 @@ switch ($action) {
 
 	case 'translate':
 		echo $i18n->translate($_POST['wort']);
-		break;
-
-	case 'translator':
-
-
-
-		$translator->setTo($_POST['langInto']);
-		try {
-			echo json_encode($translator->translate( $_POST['text'] ));
-		} catch ( Exception $e ) {
-			echo $e->getMessage();
-		}
 		break;
 }

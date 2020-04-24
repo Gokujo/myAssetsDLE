@@ -41,9 +41,6 @@ $blockLang = [
 	segRow2(translate('Запасной язык'), translate('Если у основного языка не будет перевода или произойдёт какая-либо ошибка, то на какой язык переключить?'),	'fallback_language', $mod_config,	'select', $lang_list),
 	segRow2(translate('Путь до языковых файлов'), translate('Стандартный путь до языковых файлов /locales.'),	'path', $mod_config,	'input'),
 	segRow2(translate('Переменная для COOKIE'), translate('Используемый язык будет браться из куки браузера.'),	'cookieField', $mod_config,'input'),
-	segRow2(translate('Включить машиный перевод?'), translate('Прю включенном параметре, позволяет переводить из исходного языка в нужный.'),	'translator', $mod_config,'checkbox'),
-	segRow2(translate('Движок перевода'), translate('Какой сервис использовать для перевода текста?'),	'translateEngine', $mod_config,	'select', ['yandex' => translate('Яндекс')]),
-	segRow2(translate('API ключ движка перевода'), translate('API ключ для перевода через сервис. <br><ul class="ui list-circle"><li class="item"><b>Яндекс</b>: бесплатный сервис перевода. Документация и приобретение ключа находятся на <a href="https://translate.yandex.com/developers/keys" target="_blank">сайте сервиса</a>.</li> </ul> <br>Если найдёте другие популярные и бесплатные сервиса - писать по контактам разработчику.'),	'transAPI', $mod_config,'input'),
 ];
 
 $blockDev = [

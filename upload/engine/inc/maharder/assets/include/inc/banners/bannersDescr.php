@@ -28,11 +28,7 @@ foreach ($i18n_lang['active'] as $code => $lang_ar) {
 	$thisVal = htmlspecialchars( $thisField, ENT_QUOTES, $config['charset'] );
 	echo <<<HTML
 		<div class="form-group">
-		  <label class="control-label col-md-2 col-sm-3">{$lang['banners_xdescr']}
-HTML;
-	$content .= setTranslator($lang_ar['iso2'], 'banner_descr');
-	$content .= <<<HTML
-</label>
+		  <label class="control-label col-md-2 col-sm-3">{$lang['banners_xdescr']}</label>
 		  <div class="col-md-10 col-sm-9">
 			<input class="form-control width-350 position-left" maxlength="40" type="text" name="banner_descr_{$lang_ar['iso2']}" 
 			value="{$thisField}" /><span class="text-muted text-size-small">{$langD}</span>

@@ -41,24 +41,16 @@ foreach ($i18n_lang['active'] as $code => $lang_ar) {
 		$tpl->set('{votebody_' . $iso .'}', '');
 		$tpl->set('{shortarea_' . $iso .'}', '' );
 		$tpl->set('{fullarea_' . $iso .'}', '' );
-		$tpl->set('{langname-full_' . $iso .'}', '' );
+		$tpl->set('{fulltitle_' . $iso .'}', '' );
 		$tpl->set('{langname_' . $iso .'}', '' );
 		$tpl->set('{langname-int_' . $iso .'}', '' );
 		$tpl->set('{flag_' . $iso .'}', '' );
 		$tpl->set('{flag-url_' . $iso .'}', '' );
 		$tpl->set('{iso2_' . $iso .'}', '' );
 
-		$tpl->set('{title_' . $iso .'_translate}', '');
-		$tpl->set('{short-story_' . $iso .'_translate}', '');
-		$tpl->set('{full-story_' . $iso .'_translate}', '');
-		$tpl->set('{tags_' . $iso .'_translate}', '');
-		$tpl->set('{votetitle_' . $iso .'_translate}', '');
-		$tpl->set('{frage_' . $iso .'_translate}', '');
-		$tpl->set('{votebody_' . $iso .'_translate}', '');
-
 	} else {
 
-		$tpl->set('{langname-full_' . $iso .'}', $titleName );
+		$tpl->set('{fulltitle_' . $iso .'}', $titleName );
 		$tpl->set('{langname_' . $iso .'}', $langName );
 		$tpl->set('{langname-int_' . $iso .'}', $langNameInt );
 		$tpl->set('{flag_' . $iso .'}', $langFlag );
@@ -100,14 +92,6 @@ foreach ($i18n_lang['active'] as $code => $lang_ar) {
 			$tpl->set( '{fullarea_' . $iso .'}', insertEditor('full_story', $iso) );
 
 		}
-
-		$tpl->set('{title_' . $iso .'_translate}', setTranslator($iso, 'title'));
-		$tpl->set('{short-story_' . $iso .'_translate}', setTranslator($iso, 'short_story'));
-		$tpl->set('{full-story_' . $iso .'_translate}', setTranslator($iso, 'full_story'));
-		$tpl->set('{tags_' . $iso .'_translate}', setTranslator($iso, 'tags'));
-		$tpl->set('{votetitle_' . $iso .'_translate}', setTranslator($iso, 'vote_title'));
-		$tpl->set('{frage_' . $iso .'_translate}', setTranslator($iso, 'frage'));
-		$tpl->set('{votebody_' . $iso .'_translate}', setTranslator($iso, 'vote_body'));
 
 	}
 

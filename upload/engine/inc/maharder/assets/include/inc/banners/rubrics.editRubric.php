@@ -28,19 +28,11 @@ foreach ($i18n_lang['active'] as $code => $lang_ar) {
 	$langD = "<img src='{$lang_ar['flag']}' style='max-width: 23px;width: 100%;height: auto;' alt='{$langN}' title='{$langN}'> {$langN}";
 
 	$rubTitle .= <<<HTML
-<br><br>{$lang['rubric_title']} ({$langD})
-HTML;
-	$rubTitle .= setTranslator($lang_ar['iso2'], 'title');
-	$rubTitle .= <<<HTML
-<br><input type='text' name='title_{$lang_ar['iso2']}' id='dle-promt-title-{$lang_ar['iso2']}' class='classic' style='width:100%;' value='"+title_{$lang_ar['iso2']}+"'>
+<br><br>{$lang['rubric_title']} ({$langD})<br><input type='text' name='title_{$lang_ar['iso2']}' id='dle-promt-title-{$lang_ar['iso2']}' class='classic' style='width:100%;' value='"+title_{$lang_ar['iso2']}+"'>
 HTML;
 
 	$rubDescr .= <<<HTML
-<br><br>{$lang['rubric_description']} ({$langD})
-HTML;
-	$rubDescr .= setTranslator($lang_ar['iso2'], 'description');
-	$rubDescr .= <<<HTML
-<br><textarea name='description_{$lang_ar['iso2']}' id='dle-promt-descr-{$lang_ar['iso2']}' class='classic' style='width:100%;' rows='3'>"+descr_{$lang_ar['iso2']}+"</textarea>
+<br><br>{$lang['rubric_description']} ({$langD})<br><textarea name='description_{$lang_ar['iso2']}' id='dle-promt-descr-{$lang_ar['iso2']}' class='classic' style='width:100%;' rows='3'>"+descr_{$lang_ar['iso2']}+"</textarea>
 HTML;
 
 	echo <<<HTML

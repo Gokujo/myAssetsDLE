@@ -60,8 +60,8 @@ foreach ($i18n_lang['active'] as $code => $lang_ar) {
 		$qs[] = "{$lang['opt_question_3']}<br><input type='text' name='question' id='question' class='classic' style='width:100%' value='' />";
 		$as[] = "{$lang['opt_question_4']}<br/><textarea name='answer' id='answer' class='classic' style='width:100%;height:100px;'></textarea>";
 	} else {
-		$qs[] = "{$lang['opt_question_3']} {$flag}" .setTranslator($lang_ar['iso2'], 'question') . "<br><input type='text' name='question_{$iso}' id='question_{$iso}' class='classic' style='width:100%' value='' />";
-		$as[] = "{$lang['opt_question_4']} {$flag}" .setTranslator($lang_ar['iso2'], 'answer') . "<br/><textarea name='answer_{$iso}' id='answer_{$iso}' class='classic' style='width:100%;height:100px;'></textarea>";
+		$qs[] = "{$lang['opt_question_3']} {$flag}<br><input type='text' name='question_{$iso}' id='question_{$iso}' class='classic' style='width:100%' value='' />";
+		$as[] = "{$lang['opt_question_4']} {$flag}<br/><textarea name='answer_{$iso}' id='answer_{$iso}' class='classic' style='width:100%;height:100px;'></textarea>";
 	}
 
 }

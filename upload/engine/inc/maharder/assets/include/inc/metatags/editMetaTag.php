@@ -35,11 +35,11 @@ foreach ($i18n_lang['active'] as $code => $lang_ar) {
 		$metaDescr[]    = "{$lang['meta_descr']} <br /><input type='text' name='descr' class='classic' style='width:100%;' value='\"+meta_description+\"'/><br><br>";
 		$metaKeyWords[] = "{$lang['meta_keys']}<br /><textarea name='keywords' class='classic' style='width:100%;' rows='3'>\"+meta_keywords+\"</textarea>";
 	} else {
-		$pageTitle[]    = "{$lang['page_header_1']} {$titleName}" .setTranslator($lang_ar['iso2'], 'page_title') . "<br /><input type='text' name='page_title_{$iso}' class='classic' style='width:100%;' value='\"+page_title_{$iso}+\"'><br><br>";
-		$pageDescr[]    = "{$lang['page_header_2']} {$titleName}" .setTranslator($lang_ar['iso2'], 'page_description') . "<br><textarea name='page_description_{$iso}' class='classic' style='width:100%;' rows='5' placeholder='{$lang['page_header_3']}'>\"+page_description_{$iso}+\"</textarea><br><br>";
-		$metaTitle[]    = "{$lang['meta_title']} {$titleName}" .setTranslator($lang_ar['iso2'], 'meta_title') . "<br /><input type='text' name='meta_title_{$iso}' class='classic' style='width:100%;' value='\"+meta_title_{$iso}+\"'><br><br>";
-		$metaDescr[]    = "{$lang['meta_descr']} {$titleName}" .setTranslator($lang_ar['iso2'], 'descr') . "<br /><input type='text' name='descr_{$iso}' class='classic' style='width:100%;' value='\"+meta_description_{$iso}+\"'/><br><br>";
-		$metaKeyWords[] = "{$lang['meta_keys']} {$titleName}" .setTranslator($lang_ar['iso2'], 'keywords') . "<br /><textarea name='keywords_{$iso}' class='classic' style='width:100%;' rows='3'>\"+meta_keywords_{$iso}+\"</textarea>";
+		$pageTitle[]    = "{$lang['page_header_1']} {$titleName}<br /><input type='text' name='page_title_{$iso}' class='classic' style='width:100%;' value='\"+page_title_{$iso}+\"'><br><br>";
+		$pageDescr[]    = "{$lang['page_header_2']} {$titleName}<br><textarea name='page_description_{$iso}' class='classic' style='width:100%;' rows='5' placeholder='{$lang['page_header_3']}'>\"+page_description_{$iso}+\"</textarea><br><br>";
+		$metaTitle[]    = "{$lang['meta_title']} {$titleName}<br /><input type='text' name='meta_title_{$iso}' class='classic' style='width:100%;' value='\"+meta_title_{$iso}+\"'><br><br>";
+		$metaDescr[]    = "{$lang['meta_descr']} {$titleName}<br /><input type='text' name='descr_{$iso}' class='classic' style='width:100%;' value='\"+meta_description_{$iso}+\"'/><br><br>";
+		$metaKeyWords[] = "{$lang['meta_keys']} {$titleName}<br /><textarea name='keywords_{$iso}' class='classic' style='width:100%;' rows='3'>\"+meta_keywords_{$iso}+\"</textarea>";
 
 		echo <<<HTML
 
