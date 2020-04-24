@@ -38,11 +38,15 @@ foreach ($i18n_lang['active'] as $code => $lang_ar) {
 	$titleName = "<img src='{$lang_ar['flag']}' alt='{$title}' title='{$title}' style='max-width: 23px;width: 100%;height: auto;'> " . $lang_ar['name'] . ' / ' . $lang_ar['international'];
 	if ($i18n->getLocale() == $code) continue;
 
-	echo <<<HTML
+	$content = <<<HTML
 		<div class="form-group">
 			<label class="control-label col-md-2 col-sm-3">
 				{$lang['vote_body']}<br>
-				<small>({$titleName})</small><br />
+				<small>({$titleName})</small>
+HTML;
+	$content .= setTranslator($lang_ar['iso2'], 'body');
+	$content .= <<<HTML
+<br />
 				<span class="note large">{$lang['vote_str_1']}</span>
 			</label>
 		  	<div class="col-md-10 col-sm-9">
@@ -50,6 +54,8 @@ foreach ($i18n_lang['active'] as $code => $lang_ar) {
 		  	</div>
 		</div>
 HTML;
+
+	echo $content;
 
 }
 

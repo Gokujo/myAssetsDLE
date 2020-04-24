@@ -30,10 +30,7 @@
 
 	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/functions.php'));
 	require_once (DLEPlugins::Check(ENGINE_DIR . '/inc/maharder/assets/languages.php'));
-	if(file_exists(DLEPlugins::Check(ROOT_DIR . '/language/MaHarder/'.$mh_mod_lang.'/'.$codename.'.php'))) {
-		include(DLEPlugins::Check(ROOT_DIR . '/language/MaHarder/' . $mh_mod_lang . '/' . $codename . '.php'));
-		$mh_lang = array_merge($mh_lang, $this_mod_lang);
-	}
+
 
 	if ( file_exists( DLEPlugins::Check(ENGINE_DIR . '/ajax/maharder/' . $module . '/' . $mod_file . '.php') ) ) {
 

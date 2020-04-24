@@ -22,22 +22,6 @@ if(!defined('DATALIFEENGINE')) {
 	die( "Hacking attempt!" );
 }
 
-$selected_language = $config['langs'];
-	
-if (isset( $_COOKIE['selected_language'] )) { 
-	
-	$_COOKIE['selected_language'] = trim(totranslit( $_COOKIE['selected_language'], false, false ));
-	
-	if ($_COOKIE['selected_language'] != "" AND @is_dir ( ROOT_DIR . '/language/' . $_COOKIE['selected_language'] )) {
-		$selected_language = $_COOKIE['selected_language'];
-	}
-	
-}
-
-if ( file_exists( DLEPlugins::Check(ROOT_DIR.'/language/'.$selected_language.'/adminpanel.lng') ) ) {
-	include_once (DLEPlugins::Check(ROOT_DIR.'/language/'.$selected_language.'/adminpanel.lng'));
-}
-
 $allowed_extensions = array ("gif", "jpg", "png", "jpeg", "webp" );
 $allowed_video = array ("avi", "mp4", "wmv", "mpg", "mp3", "m4v", "m4a", "mov", "3gp", "mkv" );
 $allowed_files = explode( ',', strtolower( $user_group[$member_id['user_group']]['files_type'] ) );
@@ -164,7 +148,7 @@ if( $_POST['subaction'] == "deluploads" ) {
 			
 			$file = intval( $file );
 			
-			$row = $db->super_query( "SELECT id, name, path FROM {$model_field} WHERE uploader = '{$author}' AND model_id = '{$model_id}' AND model_name = '{$model_name}' AND id='$file'" );
+			$row = $db->super_query( "SELECT id, name, path FROM {$model_field} WHERE author = '{$author}' AND model_id = '{$model_id}' AND model_name = '{$model_name}' AND id='$file'" );
 
 			if ( $row['id']  and $row['path'] ) {
 				$url = explode( "/", $row['path'] );
@@ -261,95 +245,97 @@ HTML;
 
 $uploaded_list = array();
 $folder_list = array();
-$selectSQL = "SELECT id, name FROM {$model_field} WHERE model_id = '{$model_id}' AND model_name = '{$model_name}' AND type='image'";
-$db->query( $selectSQL );
 
-while ( $row = $db->get_row() ) {
+if( $area == "template" ) {
 
-	$url_image = explode( "/", $row['name'] );
+	$db->query( "SELECT id, name FROM {$model_field} WHERE model_id = '{$model_id}' AND model_name = '{$model_name}' AND path = ''" );
+
+	while ( $row = $db->get_row() ) {
+
+		$url_image = explode( "/", $row['name'] );
 			
-	if( count( $url_image ) == 2 ) {
-			
-		$folder_prefix = $url_image[0] . "/";
-		$dataimages = $url_image[1];
-			
-	} else {
+		if( count( $url_image ) == 2 ) {
 				
-		$folder_prefix = "";
-		$dataimages = $url_image[0];
+			$folder_prefix = $url_image[0] . "/";
+			$dataimages = $url_image[1];
 			
-	}
-	
-	$folders = ['files', 'posts'];
+		} else {
+				
+			$folder_prefix = "";
+			$dataimages = $url_image[0];
+			
+		}
 
-	foreach($folders as $folder) {
-		if( file_exists( ROOT_DIR . "/uploads/{$folder}/" . $folder_prefix . $dataimages ) ) {
-			$this_size = @filesize( ROOT_DIR . "/uploads/{$folder}/" . $folder_prefix . $dataimages );
-			$img_info = @getimagesize( ROOT_DIR . "/uploads/{$folder}/" . $folder_prefix . $dataimages );
-			$img_url = 	$config['http_home_url'] . "uploads/{$folder}/" . $folder_prefix . $dataimages;
+		if( file_exists( ROOT_DIR . "/uploads/files/" . $folder_prefix . $dataimages ) ) {
 
-			if( file_exists( ROOT_DIR . "/uploads/{$folder}/" . $folder_prefix . "medium/" . $dataimages ) ) {
-				$img_url = 	$config['http_home_url'] . "uploads/{$folder}/" . $folder_prefix . "medium/" . $dataimages;
+			$this_size = @filesize( ROOT_DIR . "/uploads/files/" . $folder_prefix . $dataimages );
+			$img_info = @getimagesize( ROOT_DIR . "/uploads/files/" . $folder_prefix . $dataimages );
+			$img_url = 	$config['http_home_url'] . "uploads/files/" . $folder_prefix . $dataimages;
+
+			if( file_exists( ROOT_DIR . "/uploads/files/" . $folder_prefix . "medium/" . $dataimages ) ) {
+				$img_url = 	$config['http_home_url'] . "uploads/files/" . $folder_prefix . "medium/" . $dataimages;
 				$medium_data = "yes";
 			} else {
 				$medium_data = "no";
+
 			}
 
-			if( file_exists( ROOT_DIR . "/uploads/{$folder}/" . $folder_prefix . "thumbs/" . $dataimages ) ) {
-				$img_url = 	$config['http_home_url'] . "uploads/{$folder}/" . $folder_prefix . "thumbs/" . $dataimages;
+			if( file_exists( ROOT_DIR . "/uploads/files/" . $folder_prefix . "thumbs/" . $dataimages ) ) {
+				$img_url = 	$config['http_home_url'] . "uploads/files/" . $folder_prefix . "thumbs/" . $dataimages;
 				$thumb_data = "yes";
 			} else {
 				$thumb_data = "no";
+
 			}	
 
 			$file_name = explode("_", $dataimages);
 			unset($file_name[0]);
 			$file_name = implode("_", $file_name);
-			$data_url = $config['http_home_url'] . "uploads/{$folder}/" . $folder_prefix . $dataimages;
+
+			$data_url = $config['http_home_url'] . "uploads/files/" . $folder_prefix . $dataimages;
 			$uploaded_list[] = "<div class=\"uploadedfile\"><div class=\"info\">{$file_name}</div><div class=\"uploadimage\"><a class=\"uploadfile\" href=\"{$data_url}\" data-src=\"{$data_url}\" data-thumb=\"{$thumb_data}\" data-medium=\"{$medium_data}\" data-type=\"image\"><img style=\"width:auto;height:auto;max-width:100px;max-height:90px;\" src=\"" . $img_url . "\" /></a></div><div class=\"info\"><input type=\"checkbox\" name=\"files[]\" value=\"" . $row['id'] . "\" data-thumb=\"{$thumb_data}\" data-medium=\"{$medium_data}\" data-src=\"{$data_url}\" data-type=\"image\">&nbsp;{$img_info[0]}x{$img_info[1]}</div></div>";
 
 		}
 	
 	}
-	
-}
 
-$db->query( "SELECT id, name, path, size FROM {$model_field} WHERE model_id = '{$model_id}' AND model_name = '{$model_name}' AND path <> ''" );
+	$db->query( "SELECT id, name, path, size FROM {$model_field} WHERE model_id = '{$model_id}' AND model_name = '{$model_name}' AND path != ''" );
 		
-while ( $row = $db->get_row() ) {
+	while ( $row = $db->get_row() ) {
 		
-	if($row['size']) {
-		$this_size = formatsize( $row['size'] );
-	} else {
-		$this_size = formatsize( @filesize( ROOT_DIR . "/uploads/files/" . $row['path'] ) );
-	}
-		
-	$file_type = explode( ".", $row['name'] );
-	$file_type = totranslit( end( $file_type ) );
-
-
-	if( in_array( $file_type, $allowed_video ) ) {
-			
-		if( $file_type == "mp3" ) {
-					
-			$file_link = $config['http_home_url'] . "engine/skins/images/mp3_file.png";
-			$data_url = $config['http_home_url'] . "uploads/files/" . $row['onserver'];
-			$file_play = "audio";
-				
+		if($row['size']) {
+			$this_size = formatsize( $row['size'] );
 		} else {
-					
-			$file_link = $config['http_home_url'] . "engine/skins/images/video_file.png";
-			$data_url = $config['http_home_url'] . "uploads/files/" . $row['onserver'];
-			$file_play = "video";
+			$this_size = formatsize( @filesize( ROOT_DIR . "/uploads/files/" . $row['path'] ) );
 		}
+		
+		$file_type = explode( ".", $row['name'] );
+		$file_type = totranslit( end( $file_type ) );
+
+
+		if( in_array( $file_type, $allowed_video ) ) {
+				
+			if( $file_type == "mp3" ) {
+					
+				$file_link = $config['http_home_url'] . "engine/skins/images/mp3_file.png";
+				$data_url = $config['http_home_url'] . "uploads/files/" . $row['onserver'];
+				$file_play = "audio";
+				
+			} else {
+					
+				$file_link = $config['http_home_url'] . "engine/skins/images/video_file.png";
+				$data_url = $config['http_home_url'] . "uploads/files/" . $row['onserver'];
+				$file_play = "video";
+			}
 			
-	} else { $file_link = $config['http_home_url'] . "engine/skins/images/all_file.png";  $data_url = "#"; $file_play = ""; };
+		} else { $file_link = $config['http_home_url'] . "engine/skins/images/all_file.png";  $data_url = "#"; $file_play = ""; };
 
-	$uploaded_list[] = "<div class=\"uploadedfile\"><div class=\"info\">{$row['name']}</div><div class=\"uploadimage\"><a class=\"uploadfile\" href=\"{$data_url}\" data-src=\"{$row['id']}:{$row['name']}\" data-type=\"file\" data-play=\"{$file_play}\"><img style=\"width:auto;height:auto;max-width:100px;max-height:90px;\" src=\"" . $file_link . "\" /></a></div><div class=\"info\"><input type=\"checkbox\" id=\"file\" name=\"files[]\" value=\"{$row['id']}\" data-type=\"file\">&nbsp;{$this_size}</div></div>";
+		$uploaded_list[] = "<div class=\"uploadedfile\"><div class=\"info\">{$row['name']}</div><div class=\"uploadimage\"><a class=\"uploadfile\" href=\"{$data_url}\" data-src=\"{$row['id']}:{$row['name']}\" data-type=\"file\" data-play=\"{$file_play}\"><img style=\"width:auto;height:auto;max-width:100px;max-height:90px;\" src=\"" . $file_link . "\" /></a></div><div class=\"info\"><input type=\"checkbox\" id=\"file\" name=\"files[]\" value=\"{$row['id']}\" data-type=\"file\">&nbsp;{$this_size}</div></div>";
 
+
+	}
 
 }
-
 
 $img_dir = opendir(  ROOT_DIR . "/uploads/" );
 

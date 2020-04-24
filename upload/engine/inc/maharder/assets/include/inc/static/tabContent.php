@@ -65,7 +65,11 @@ foreach ($i18n_lang['active'] as $code => $lang_ar) {
 			<div class="panel-body">
 			
 				<div class="form-group">
-		  			<label class="control-label col-md-2">{$lang['static_descr']} ({$titleName})</label>
+		  			<label class="control-label col-md-2">{$lang['static_descr']} ({$titleName})
+HTML;
+	$content .= setTranslator($lang_ar['iso2'], 'description');
+	$content .= <<<HTML
+</label>
 		  			<div class="col-md-10">
 						<input type="text" name="description_{$iso}" class="form-control width-550" maxlength="250" 
 						value="{$row['descr_' . $iso]}"><i 
@@ -74,7 +78,11 @@ foreach ($i18n_lang['active'] as $code => $lang_ar) {
 		 		</div>
 		 		
 		 		<div class="form-group editor-group">
-		  			<label class="control-label col-md-2">{$lang['static_templ']} ({$titleName})</label>
+		  			<label class="control-label col-md-2">{$lang['static_templ']} ({$titleName})
+HTML;
+	$content .= setTranslator($lang_ar['iso2'], 'template');
+	$content .= <<<HTML
+</label>
 		  			<div class="col-md-10">
 HTML;
 
@@ -106,20 +114,27 @@ HTML;
 		 		<div class="form-group">
 		 	 		<label class="control-label col-md-2"></label>
 		  			<div class="col-md-10">
-						{$lang['add_metatags']} ($titleName)
-						<i class="help-button visible-lg-inline-block text-primary-600 fa fa-question-circle position-right position-left" data-rel="popover" data-trigger="hover" data-placement="auto right" data-content="{$lang['hint_metas']}" ></i>
+						{$lang['add_metatags']} ($titleName) <i class="help-button visible-lg-inline-block text-primary-600 fa fa-question-circle position-right position-left" data-rel="popover" data-trigger="hover" data-placement="auto right" data-content="{$lang['hint_metas']}" ></i>
 		  			</div>
 		 		</div>	
 		 		
 				<div class="form-group">
-		 			<label class="control-label col-md-2">{$lang['meta_title']} ($titleName)</label>
+		 			<label class="control-label col-md-2">{$lang['meta_title']} ($titleName)
+HTML;
+	$content .= setTranslator($lang_ar['iso2'], 'meta_title');
+	$content .= <<<HTML
+</label>
 		  			<div class="col-md-10">
 						<input type="text" name="meta_title_{$iso}" value="{$row['metatitle_' . $iso]}" class="form-control width-500" maxlength="140">
 		  			</div>
 		 		</div>
 		 		
 				<div class="form-group">
-		  			<label class="control-label col-md-2">{$lang['meta_descr']} ($titleName)</label>
+		  			<label class="control-label col-md-2">{$lang['meta_descr']} ($titleName)
+HTML;
+	$content .= setTranslator($lang_ar['iso2'], 'descr');
+	$content .= <<<HTML
+</label>
 		  			<div class="col-md-10">
 						<input type="text" name="descr_{$iso}" id="autodescr_{$iso}" class="form-control width-500" 
 						maxlength="300" value="{$row['metadescr_' . $iso]}">
@@ -127,7 +142,11 @@ HTML;
 		 		</div>	
 		 		
 				<div class="form-group">
-		  			<label class="control-label col-md-2">{$lang['meta_keys']}  ($titleName)</label>
+		  			<label class="control-label col-md-2">{$lang['meta_keys']}  ($titleName)
+HTML;
+	$content .= setTranslator($lang_ar['iso2'], 'keywords');
+	$content .= <<<HTML
+</label>
 		  			<div class="col-md-10">
 						<textarea class="tags" name="keywords_{$iso}" id='keywords_{$iso}'>
 							{$row['metakeys_' . $iso]}

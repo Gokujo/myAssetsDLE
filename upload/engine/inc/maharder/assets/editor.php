@@ -21,7 +21,7 @@ function insertEditor($field, $iso, $id, $model, $field_name, $data = '') {
 	global $config, $image_q_upload, $p_name, $dle_login_hash, $implugin, $image_upload, $user_group, $member_id;
 
 	if ( $user_group[$member_id['user_group']]['allow_image_upload'] OR $user_group[$member_id['user_group']]['allow_file_upload'] ) {
-		$image_upload = "'mhupload',";
+		$image_upload = "'dleupload',";
 		$image_q_upload = ", 'imageUpload'";
 	} else {$image_upload = ""; $image_q_upload = "";}
 
@@ -30,21 +30,24 @@ function insertEditor($field, $iso, $id, $model, $field_name, $data = '') {
 	} else $implugin = 'insertImage';
 
 	if (empty($p_name) || !isset($p_name)) $p_name = $member_id['user_id'];
-	
+
 	$scripts = [];
 	$fieldEditor = '';
 
 		$scripts[] = <<<HTML
 jQuery(function($){
 
+		$('[data-cmd="dleupload"]').on('click', function () {
+			$(document).find('#mediauploadframe').each((id, frame) => {
+				$(frame).attr('src', 'engine/ajax/controller.php?mod=maharder_upload&area={$field}&author={$p_name}&model_id={$id}&model_name={$model}&model_field={$field_name}&wysiwyg=1&dle_theme=null');
+			})
+		});
 
       $('#{$field}').froalaEditor({
         dle_root: '',
         dle_upload_area : "{$field}",
         dle_upload_user : "{$p_name}",
-        dle_upload_model_id : "{$id}",
-		dle_upload_model_name : "{$model}",
-		dle_upload_model_field : "{$field_name}",
+        dle_upload_news : "{$id}",
         width: '100%',
         height: '400',
         language: '{$iso}',
