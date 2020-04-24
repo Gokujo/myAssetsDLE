@@ -1112,6 +1112,14 @@ $selectClause = implode(', ', $selectClause);
 $sql_select = "SELECT p.id, {$selectClause}, ]]></replacecode>
 			<searchcount>17</searchcount>
 		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[switch ( $do ) {]]></searchcode>
+										   
+			<replacecode><![CDATA[	case "sprache" :
+		include (DLEPlugins::Check(ENGINE_DIR . '/modules/maharder/language.php'));
+		break;]]></replacecode>
+			<searchcount>1</searchcount>
+		</operation>
 	</file>
 	<file name="engine/inc/static.php">
 		<operation action="replace">
