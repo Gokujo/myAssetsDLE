@@ -85,7 +85,11 @@ foreach ($i18n_lang['active'] as $code => $lang_ar) {
 		<div class="tab-pane" id="{$code}">
 			<div class="panel-body">
 				<div class="form-group">
-					<label class="control-label col-sm-2">{$lang['edit_et']} ({$lang_ar['name']})</label>
+					<label class="control-label col-sm-2">{$lang['edit_et']} ({$lang_ar['name']})
+HTML;
+	$content .= setTranslator($lang_ar['iso2'], 'title');
+	$content .= <<<HTML
+					</label>
 					<div class="col-sm-10">
 						<input type="text" class="form-control width-550 position-left" 
 						name="title_{$lang_ar['iso2']}" id="title_{$lang_ar['iso2']}" maxlength="250" value="{$row['title_' . $lang_ar['iso2']]}">
@@ -97,15 +101,23 @@ foreach ($i18n_lang['active'] as $code => $lang_ar) {
 				</div>
 							
 				<div class="form-group">
-					<label class="control-label col-md-2 col-sm-3">{$lang['meta_title']} ({$lang_ar['name']})</label>
+					<label class="control-label col-md-2 col-sm-3">{$lang['meta_title']} ({$lang_ar['name']})
+HTML;
+	$content .= setTranslator($lang_ar['iso2'], 'meta_title');
+	$content .= <<<HTML
+					</label>
 					<div class="col-md-10 col-sm-9">
 						<input type="text" name="meta_title_{$lang_ar['iso2']}" class="form-control width-500" 
-						maxlength="140" value="{$row['title_' . $lang_ar['iso2']]}">
+						maxlength="140" value="{$row['meta_title_' . $lang_ar['iso2']]}">
 					</div>
 				</div>	
 				
 				<div class="form-group">
-					<label class="control-label col-md-2 col-sm-3">{$lang['meta_descr']} ({$lang_ar['name']})</label>
+					<label class="control-label col-md-2 col-sm-3">{$lang['meta_descr']} ({$lang_ar['name']})
+HTML;
+	$content .= setTranslator($lang_ar['iso2'], 'descr');
+	$content .= <<<HTML
+					</label>
 					<div class="col-md-10 col-sm-9">
 						<input type="text" name="descr_{$lang_ar['iso2']}" id="autodescr_{$lang_ar['iso2']}" 
 						class="form-control width-500" maxlength="300" value="{$row['descr_' . $lang_ar['iso2']]}">
@@ -113,7 +125,11 @@ foreach ($i18n_lang['active'] as $code => $lang_ar) {
 				</div>	
 				
 				<div class="form-group">
-					<label class="control-label col-md-2 col-sm-3">{$lang['meta_keys']} ({$lang_ar['name']})</label>
+					<label class="control-label col-md-2 col-sm-3">{$lang['meta_keys']} ({$lang_ar['name']})
+HTML;
+	$content .= setTranslator($lang_ar['iso2'], 'keywords');
+	$content .= <<<HTML
+</label>
 					<div class="col-md-10 col-sm-9">
 						<textarea class="tags" name="keywords_{$lang_ar['iso2']}" 
 						id="keywords_{$lang_ar['iso2']}">{$row['keywords_' . $lang_ar['iso2']]}</textarea><br /><br />
@@ -125,7 +141,11 @@ foreach ($i18n_lang['active'] as $code => $lang_ar) {
 				</div>	
 				
 				<div class="form-group editor-group">
-					<label class="control-label col-md-2">{$lang['addnews_short']} ({$lang_ar['name']})</label>
+					<label class="control-label col-md-2">{$lang['addnews_short']} ({$lang_ar['name']})
+HTML;
+	$content .= setTranslator($lang_ar['iso2'], 'short_story');
+	$content .= <<<HTML
+					</label>
 					<div class="col-md-10">
 HTML;
 
@@ -140,7 +160,11 @@ HTML;
 				</div>
 							
 				<div class="form-group editor-group">
-					<label class="control-label col-md-2">{$lang['addnews_full']} ({$lang_ar['name']})</label>
+					<label class="control-label col-md-2">{$lang['addnews_full']} ({$lang_ar['name']})
+HTML;
+	$content .= setTranslator($lang_ar['iso2'], 'full_story');
+	$content .= <<<HTML
+</label>
 					<div class="col-md-10">
 HTML;
 

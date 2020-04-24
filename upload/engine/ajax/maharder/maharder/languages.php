@@ -307,4 +307,14 @@ switch ($action) {
 	case 'translate':
 		echo $i18n->translate($_POST['wort']);
 		break;
+
+	
+	case 'translator':
+		$translator->setTo($_POST['langInto']);
+		try {
+			echo json_encode($translator->translate( $_POST['text'] ));
+		} catch ( Exception $e ) {
+			echo $e->getMessage();
+		}
+		break;
 }

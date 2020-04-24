@@ -5,7 +5,7 @@
 // Файл: functions.php
 // Путь: /engine/inc/maharder/assets/functions.php
 // =======================================================
-// Автор: Maxim Harder (c) 2019
+// Автор: Maxim Harder (c) 2019-2020
 // Сайт: https://maxim-harder.de / https://devcraft.club
 // Телеграм: http://t.me/MaHarder
 // =======================================================

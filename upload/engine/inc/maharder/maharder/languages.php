@@ -62,11 +62,12 @@ while ($row = $db->get_array($data)) {
 	$active = "<div class=\"ui checkbox\"><input type='checkbox' name=\"active\" " . ($row['active'] == 1 ? ' checked' : '') .">";
 
 	$action = array();
-	$action[] = "<div class='ui buttons'>";
-	$action[] = "<a data-action='save' class='ui button act_btn' role='button' data-id='{$row['id']}'><i class='fas fa-check'></i> " . translate('Сохранить') .'</a>';
-	$action[] = "<a data-action='delete' class='ui button act_btn' role='button' data-id='{$row['id']}'><i class='fas fa-trash'></i> " . translate('Удалить') .'</a>';
-	$action[] = "<a data-action='redo' data-lang='{$row['iso2']}' class='ui button act_btn' role='button' data-id='{$row['id']}'><i class='fas fa-refresh'></i> " . translate('Пересоздать') .'</a>';
-	$action[] = '</div>';
+	$action[] = "<div class=\"ui icon pointing dropdown link item\"><i class=\"wrench icon\"></i><span class=\"text\">" . translate('Действие') . "</span><i class=\"dropdown icon\"></i><div class=\"menu\">";
+	$action[] = "<a data-action='list' class=' act_btn item' role='button' data-id='{$row['id']}'><i class=\"far fa-language\"></i> " . translate('Перевести') .'</a>';
+	$action[] = "<a data-action='save' class=' act_btn item' role='button' data-id='{$row['id']}'><i class='fas fa-check'></i> " . translate('Сохранить') .'</a>';
+	$action[] = "<a data-action='delete' class='act_btn item' role='button' data-id='{$row['id']}'><i class='fas fa-trash'></i> " . translate('Удалить') .'</a>';
+	$action[] = "<a data-action='redo' data-lang='{$row['iso2']}' class='act_btn item' role='button' data-id='{$row['id']}'><i class='fas fa-refresh'></i> " . translate('Пересоздать') .'</a>';
+	$action[] = '</div></div>';
 
 	$temp[] = '#' .(int)$row['id'];
 	$temp[] = $code;

@@ -58,6 +58,10 @@ if (!function_exists('createTabs')) {
 
 			$template .= <<<HTML
 				<div class="tab-pane {$active}" id="{$name}_{$code}">
+HTML;
+			$template .= setTranslator($lang_ar['iso2'], $name);
+			$template .= <<<HTML
+
 					<textarea class="classic" rows="15" style="width:100%;" name="{$name}{$iso}">{$useTemplate}</textarea>
 				</div>
 HTML;
