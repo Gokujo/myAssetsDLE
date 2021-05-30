@@ -1,6 +1,3 @@
-
-![Версия_релиза](https://img.shields.io/badge/Version-1.1-orange.svg?style=flat-square)
-
 # Новая версия [здесь](https://github.com/Gokujo/mhadmin)
 
 # myAssetsDLE
