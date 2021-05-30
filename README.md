@@ -1,12 +1,7 @@
-[![GitHub issues](https://img.shields.io/github/issues/Gokujo/myAssetsDLE.svg?style=flat-square)](https://github.com/Gokujo/myAssetsDLE/issues)
-[![GitHub forks](https://img.shields.io/github/forks/Gokujo/myAssetsDLE.svg?style=flat-square)](https://github.com/Gokujo/myAssetsDLE/network)
-[![GitHub license](https://img.shields.io/github/license/Gokujo/myAssetsDLE.svg?style=flat-square)](https://github.com/Gokujo/myAssetsDLE/blob/master/LICENSE)
-
-![DLE-11.x](https://img.shields.io/badge/DLE-11.x-blue.svg?style=flat-square)
-![DLE-12.x](https://img.shields.io/badge/DLE-12.x-blue.svg?style=flat-square)
-![DLE-13.x](https://img.shields.io/badge/DLE-13.x-green.svg?style=flat-square)
 
 ![Версия_релиза](https://img.shields.io/badge/Version-1.1-orange.svg?style=flat-square)
+
+# Новая версия [здесь](https://github.com/Gokujo/mhadmin)
 
 # myAssetsDLE
 Модификация для админпанели и глобальные функции для моих разработок
